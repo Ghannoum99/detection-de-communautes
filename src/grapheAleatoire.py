@@ -13,14 +13,14 @@ class Sommets:
 class Graphe:
 	sommets = {}
 
-	def ajouterSommet(self, vertex):
-		if isinstance(vertex, Sommets) and vertex.nom not in self.sommets:
-			self.sommets[vertex.nom] = vertex
+	def ajouterSommet(self, sommet):
+		if isinstance(sommet, Sommets) and sommet.nom not in self.sommets:
+			self.sommets[sommet.nom] = sommet
 			return True
 		else:
 			return False
 
-	def ajouterArrete(self, u, v, weight=0):
+	def ajouterArrete(self, u, v):
 		if u in self.sommets and v in self.sommets:
 			self.sommets[u].ajouterVoisin(v)
 			self.sommets[v].ajouterVoisin(u)
@@ -35,9 +35,10 @@ class Graphe:
 def genererGrapheAleatoire():
     g = Graphe()
     arretes = []
-
-    #Pour le moment, on prend 10 comme nombre maximal de sommets dans le graphe
-    nombre_sommets_aleatoire = random.randint(5, 10)
+    nombreMaximal = input('Nombre de sommets maximal : ')
+    nombre_sommets_aleatoire = random.randint(5,int(nombreMaximal))
+    nombre_d_arrete_maximal = (nombre_sommets_aleatoire*(nombre_sommets_aleatoire-1))/2
+    nombre_d_arrete = random.randint(5, nombre_d_arrete_maximal)
 
     #Ajout des sommets d'une manière aléatoire à notre graphe
     for i in range(nombre_sommets_aleatoire):
@@ -45,13 +46,6 @@ def genererGrapheAleatoire():
         if sommet_aleatoire not in g.sommets:
             sommet_a_ajouter = Sommets( sommet_aleatoire )
             g.ajouterSommet(sommet_a_ajouter)
-
-    print("La liste des sommets: ")
-    print(list(g.sommets))
-    print("\n")
-
-    nombre_d_arrete_maximal = (nombre_sommets_aleatoire*(nombre_sommets_aleatoire-1))/2
-    nombre_d_arrete = random.randint(5, nombre_d_arrete_maximal)
 
     #Ajout des arretes d'une manière aléatoire à notre graphe
     for arrete in range(nombre_d_arrete):
@@ -61,16 +55,25 @@ def genererGrapheAleatoire():
         ensemble = liste_des_sommets[depart]+liste_des_sommets[fin]
         ensemble = ensemble.upper()
         arretes.append(ensemble)
+    for arrete in arretes:
+    	g.ajouterArrete(arrete[:1], arrete[1:])
+
+    #supprimer les sommets sans voisins
+    for key in sorted(list(g.sommets.keys())):
+        if(g.sommets[key].voisins):
+            print(".")
+        else:
+              del g.sommets[key]
+
+    print("La liste des sommets: ")
+    print(list(g.sommets))
+    print("\n")
 
     print("La liste des arretes: ")
     print(arretes)
     print("\n")
 
-    for arrete in arretes:
-    	g.ajouterArrete(arrete[:1], arrete[1:])
-
     print("Les listes d'adjascenes du graphe:")
     g.afficherGraphe()
-    print("\n")
 
 genererGrapheAleatoire()
