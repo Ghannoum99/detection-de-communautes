@@ -60,10 +60,8 @@ def genererGrapheAleatoire():
 
     #supprimer les sommets sans voisins
     for key in sorted(list(g.sommets.keys())):
-        if(g.sommets[key].voisins):
-            print(".")
-        else:
-              del g.sommets[key]
+        if bool(g.sommets[key].voisins) < 1:
+            del g.sommets[key]
 
     print("La liste des sommets: ")
     print(list(g.sommets))
