@@ -36,9 +36,9 @@ def genererGrapheAleatoire():
     g = Graphe()
     arretes = []
     nombreMaximal = input('Nombre de sommets maximal : ')
-    nombre_sommets_aleatoire = random.randint(5,int(nombreMaximal))
+    nombre_sommets_aleatoire = random.randint(0,int(nombreMaximal))
     nombre_d_arrete_maximal = (nombre_sommets_aleatoire*(nombre_sommets_aleatoire-1))/2
-    nombre_d_arrete = random.randint(5, nombre_d_arrete_maximal)
+    nombre_d_arrete = random.randint(0, nombre_d_arrete_maximal)
 
     #Ajout des sommets d'une manière aléatoire à notre graphe
     for i in range(nombre_sommets_aleatoire):
