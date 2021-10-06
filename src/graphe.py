@@ -1,25 +1,36 @@
 import copy
 from collections import defaultdict
 import random
+from sommet import Sommet
 
 
 class Graphe:
+    sommets = {}
 
     def __init__(self,liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
 
+    def ajouter_sommet(self, sommet):
+        if isinstance(sommet, Sommet) and sommet.nom not in self.sommets:
+            self.sommets[sommet.nom] = sommet
+            return True
+        else:
+            return False
 
-    def ajouter_sommet(self):
-        pass
-
-    def ajouter_arete(self):
-        pass
+    def ajouter_arrete(self, u, v):
+        if u in self.sommets and v in self.sommets:
+            self.sommets[u].ajouterVoisin(v)
+            self.sommets[v].ajouterVoisin(u)
+            return True
+        else:
+            return False
 
     def afficher_graphe(self):
-        pass
+        for key in sorted(list(self.sommets.keys())):
+            print(key + str(self.sommets[key].voisins))
 
     @staticmethod
-    def barabasi_albert_graph(m):
+    def barabasi_albert_graphe(m):
         if m <= 0:
             return Graphe()
 
@@ -36,7 +47,7 @@ class Graphe:
                     liste_adjacence[j].append(noeud)
                     liste_adjacence[noeud].append(j)
 
-        return Grape(liste_adjacence)
+        return Graphe(liste_adjacence)
 
     def set_nombre_sommet(self):
         pass
@@ -44,10 +55,12 @@ class Graphe:
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
 
+    """
     def get_nombre_arete(self):
         aretes = [len(sommets) for sommets in self.liste_adjacence.values()]
         return int(sum(aretes) / 2)
             sommets.append(key)
+    """
 
     def get_sommet(self):
         sommets = []
@@ -56,6 +69,7 @@ class Graphe:
 
         return list(dict.fromkeys(sommets))
 
+    """
     def get_arete(self):
         nombre_aretes = self.get_nombre_arete()
 
@@ -74,7 +88,7 @@ class Graphe:
                 i += 1
 
         return aretes
-
+    """
  def generer_graphe_aleatoire():
         g = Graphe()
         arretes = []
@@ -87,8 +101,8 @@ class Graphe:
         for i in range(nombre_sommets_aleatoire):
             sommet_aleatoire = random.choice(['A', 'B', 'C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])
             if sommet_aleatoire not in g.sommets:
-                sommet_a_ajouter = Sommets( sommet_aleatoire )
-                g.ajouterSommet(sommet_a_ajouter)
+                sommet_a_ajouter = Sommet(sommet_aleatoire)
+                g.ajouter_sommet(sommet_a_ajouter)
 
         #Ajout des arretes d'une manière aléatoire à notre graphe
         for arrete in range(nombre_d_arrete):
@@ -99,7 +113,7 @@ class Graphe:
             ensemble = ensemble.upper()
             arretes.append(ensemble)
         for arrete in arretes:
-            g.ajouterArrete(arrete[:1], arrete[1:])
+            g.ajouter_arrete(arrete[:1], arrete[1:])
 
         #supprimer les sommets sans voisins
         for key in sorted(list(g.sommets.keys())):
@@ -125,4 +139,4 @@ generer_graphe_aleatoire()
 print("------------------------ALBERT BARBASI----------------------------\n")
 g=Graphe()
 print("La liste d'adjacence:")
-print(g.albert_barbasi(5))
+print(g.barabasi_albert_graphe(5))
