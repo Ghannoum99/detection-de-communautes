@@ -73,7 +73,9 @@ class Graphe:
                 liste_adjacence[sommet].remove(noeud)
                 i += 1
 
-        return aretes    def generer_graphe_aleatoire():
+        return aretes
+
+ def generer_graphe_aleatoire():
         g = Graphe()
         arretes = []
         nombreMaximal = input('Nombre de sommets maximal : ')
@@ -124,6 +126,3 @@ print("------------------------ALBERT BARBASI----------------------------\n")
 g=Graphe()
 print("La liste d'adjacence:")
 print(g.albert_barbasi(5))
-
-
-
