@@ -1,67 +1,69 @@
-import copy
 from collections import defaultdict
 import random
-from sommet import Sommet
 
 
 class Graphe:
+
     sommets = {}
 
-    def __init__(self,liste_adjacence: dict = {}):
+    def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
 
-    def ajouter_sommet(self, sommet):
-        if isinstance(sommet, Sommet) and sommet.nom not in self.sommets:
-            self.sommets[sommet.nom] = sommet
-            return True
-        else:
-            return False
+    def get_nombre_sommet(self):
+        return len(self.liste_adjacence.keys())
 
-    def ajouter_arrete(self, u, v):
-        if u in self.sommets and v in self.sommets:
-            self.sommets[u].ajouterVoisin(v)
-            self.sommets[v].ajouterVoisin(u)
-            return True
-        else:
-            return False
+    def get_nombre_aretes(self):
+        aretes = 0
+        for sommet in self.liste_adjacence.values():
+            aretes += sum([len(sommet)])
+
+        return aretes / 2
+
+    def get_somme_degrees(self, liste_adjacence):
+        somme_degrees = 0
+        for sommet in liste_adjacence.values():
+            somme_degrees += sum([len(sommet)])
+
+        return somme_degrees
+
+    def set_nombre_sommet(self):
+        pass
 
     def afficher_graphe(self):
         for key in sorted(list(self.sommets.keys())):
             print(key + str(self.sommets[key].voisins))
 
-    @staticmethod
-    def barabasi_albert_graphe(m):
+    def barabasi_albert_graphe(self, m):
         if m <= 0:
             return Graphe()
 
-        liste_adjacence = defaultdict(list, {0: [1, 2], 1: [0, 2], 2: [0, 1]})
+        # Initialement le graphe est graphe triangle
+        liste_adjacence = defaultdict(list, {1: [2, 3], 2: [1, 3], 3: [1, 2]})
 
-        for j in range(3, 3 + m):
-            somme_degrees = sum([len(sommets) for sommets in liste_adjacence.values()])
-            noeuds = set(liste_adjacence.keys()) - {j} - set(liste_adjacence[j])
+        for i in range(3, 3 + m):
+            somme_degrees = self.get_somme_degrees(liste_adjacence)
+
+            noeuds = set(liste_adjacence.keys()) - {i} - set(liste_adjacence[i])
 
             for noeud in noeuds:
                 degree = len(liste_adjacence[noeud])
                 probabilite = degree / somme_degrees
                 if random.random() < probabilite:
-                    liste_adjacence[j].append(noeud)
-                    liste_adjacence[noeud].append(j)
+                    liste_adjacence[i].append(noeud)
+                    liste_adjacence[noeud].append(i)
 
         return Graphe(liste_adjacence)
 
-    def set_nombre_sommet(self):
+
+    def bron_kerbosch(self, P, R, X):
         pass
 
-    def get_nombre_sommet(self):
-        return len(self.liste_adjacence.keys())
+    def bron_kerbosch_pivot(self):
+        pass
 
-    """
-    def get_nombre_arete(self):
-        aretes = [len(sommets) for sommets in self.liste_adjacence.values()]
-        return int(sum(aretes) / 2)
-            sommets.append(key)
-    """
 
+
+"""
     def get_sommet(self):
         sommets = []
         for key, value in self.liste_adjacence.items():
@@ -69,7 +71,7 @@ class Graphe:
 
         return list(dict.fromkeys(sommets))
 
-    """
+   
     def get_arete(self):
         nombre_aretes = self.get_nombre_arete()
 
@@ -88,7 +90,8 @@ class Graphe:
                 i += 1
 
         return aretes
-    """
+  
+    
  def generer_graphe_aleatoire():
         g = Graphe()
         arretes = []
@@ -140,3 +143,4 @@ print("------------------------ALBERT BARBASI----------------------------\n")
 g=Graphe()
 print("La liste d'adjacence:")
 print(g.barabasi_albert_graphe(5))
+"""
