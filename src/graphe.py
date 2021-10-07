@@ -1,5 +1,6 @@
 from collections import defaultdict
 import random
+from sommet import Sommet
 
 
 class Graphe:
@@ -8,6 +9,22 @@ class Graphe:
 
     def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
+
+
+    def ajouter_sommet(self, sommet):
+        if isinstance(sommet, Sommet) and sommet.nom not in self.sommets:
+            self.sommets[sommet.nom] = sommet
+            return True
+        else:
+            return False
+
+    def ajouter_arrete(self, u, v):
+        if u in self.sommets and v in self.sommets:
+            self.sommets[u].ajouter_voisin(v)
+            self.sommets[v].ajouter_voisin(u)
+            return True
+        else:
+            return False
 
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
@@ -61,6 +78,57 @@ class Graphe:
     def bron_kerbosch_pivot(self):
         pass
 
+    def generer_graphe_aleatoire(self):
+        arretes=[]
+        sommets_possibles=['A', 'B', 'C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        nombre_de_sommets = input("Nombre de sommets du graphe à générer: ")
+        nombre_arretes_maximal = (int(nombre_de_sommets)*(int(nombre_de_sommets)-1))/2
+
+        #Ajout des sommets d'une manière aléatoire à notre graphe
+        for i in range(int(nombre_de_sommets)):
+            sommet_aleatoire = random.choice(sommets_possibles)
+            sommet_a_ajouter = Sommet(sommet_aleatoire)
+            self.ajouter_sommet(sommet_a_ajouter)
+            sommets_possibles.remove(sommet_aleatoire)
+
+        sommets_choisis = list(self.sommets.keys())
+
+        #Pour chaque sommet de depart, on cherche les voisins aléatoirement
+        for sommet_de_depart in  sommets_choisis:
+
+            sommets_fin = []
+            sommets_choisis = list(self.sommets.keys())
+
+            nombre_sommets_aleatoire_d_arrives = random.randint(0,int(nombre_arretes_maximal))
+            nombre_arretes_maximal=nombre_arretes_maximal-nombre_sommets_aleatoire_d_arrives
+
+            #enlever la redondane des sommets d'arrivés pour chaque sommet de départ
+            for i in range(0,nombre_sommets_aleatoire_d_arrives):
+                sommet_de_fin = random.choice(sommets_choisis)
+                if sommet_de_fin not in sommets_fin:
+                    sommets_fin.append(sommet_de_fin)
+                else:
+                    pass
+
+            #Construction des arretes avec le sommet de début et le sommet d'arrrié
+            for sommet_fin in  sommets_fin:
+                    sommet_fin = random.choice(sommets_fin)
+                    sommets_fin.remove(sommet_fin)
+                    ensemble = str(sommet_de_depart)+str(sommet_fin)
+                    ensemble = ensemble.upper()
+                    arretes.append(ensemble)
+
+            for arrete in arretes:
+                self.ajouter_arrete(arrete[:1], arrete[1:])
+
+            sommets_fin = []
+
+        self.afficher_graphe()
+
+
+
+
+
 
 
 """
@@ -71,7 +139,7 @@ class Graphe:
 
         return list(dict.fromkeys(sommets))
 
-   
+
     def get_arete(self):
         nombre_aretes = self.get_nombre_arete()
 
@@ -90,8 +158,8 @@ class Graphe:
                 i += 1
 
         return aretes
-  
-    
+
+
  def generer_graphe_aleatoire():
         g = Graphe()
         arretes = []
@@ -144,3 +212,7 @@ g=Graphe()
 print("La liste d'adjacence:")
 print(g.barabasi_albert_graphe(5))
 """
+
+g= Graphe()
+g.generer_graphe_aleatoire()
+
