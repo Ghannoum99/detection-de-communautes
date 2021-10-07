@@ -72,8 +72,23 @@ class Graphe:
         return Graphe(liste_adjacence)
 
 
-    def bron_kerbosch(self, P, R, X):
+    def get_voision(self, sommet):
         pass
+
+    # P: ensemble des sommets candidats pour etre ajoutes a la potentielle clique
+    # R: un sous ensemble des sommets de la potentielle clique
+    # X: contient des sommets deja traites ou appartenant deja a une clique maximale
+    def bron_kerbosch(self, P, R, X):
+        if len(P) == 0 and len(X) == 0:
+            return R
+        for sommet in P:
+            # N(s): ensemble de voisin de v
+            # P = P inter Voision(sommet)
+            # X = X inter Voisin(sommet)
+            self.bron_kerbosch(R.append(sommet),self.get_voision(sommet), self.get_voision(sommet))
+            P = P.extend(sommet)
+            X = X.append(sommet)
+
 
     def bron_kerbosch_pivot(self):
         pass
