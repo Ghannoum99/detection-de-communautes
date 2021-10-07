@@ -73,7 +73,7 @@ class Graphe:
 
 
     def get_voision(self, sommet):
-        pass
+        return self.liste_adjacence[sommet]
 
     # P: ensemble des sommets candidats pour etre ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
