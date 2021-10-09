@@ -94,10 +94,29 @@ class Graphe:
             P.remove(sommet)
             X.append(sommet)
 
+    def generer_graphe_aleatoire(self):
+        arretes = []
+        voisins=list()
+        nombreMaximal = input('Nombre de sommets maximal : ')
+        nombre_sommets_aleatoire = random.randint(0,int(nombreMaximal))
+        nombre_d_arrete_maximal = (nombre_sommets_aleatoire*(nombre_sommets_aleatoire-1))/2
 
+        #Ajout des sommets d'une manière aléatoire à notre graphe
+        for i in range(nombre_sommets_aleatoire):
+            g.sommets[i]=[]
 
+        #Ajout des arretes d'une manière aléatoire à notre graphe
+        for sommet_de_depart in range(nombre_sommets_aleatoire):
+            for sommet_de_fin in range(nombre_sommets_aleatoire):
+                 probabilite_de_liaison_avec_autre_sommet = random.uniform(0, 1.5)
+                 #print( str(probabilite_de_liaison_avec_autre_sommet) +" de chance pour lier " + str(sommet_de_depart) +" et "+ str(sommet_de_fin) )
+                 if  probabilite_de_liaison_avec_autre_sommet <=1 and probabilite_de_liaison_avec_autre_sommet > 0:
+                    if sommet_de_depart not in self.sommets[sommet_de_fin] :
+                        self.sommets[sommet_de_fin].append(sommet_de_depart)
+                    if sommet_de_fin not in self.sommets[sommet_de_depart]:
+                        self.sommets[sommet_de_depart].append(sommet_de_fin)
 
-
+        print("La liste d'adjsasnce du graphe : " + str(self.sommets))
 """
     def get_sommet(self):
         sommets = []
@@ -106,7 +125,7 @@ class Graphe:
 
         return list(dict.fromkeys(sommets))
 
-   
+
     def get_arete(self):
         nombre_aretes = self.get_nombre_arete()
 
@@ -125,57 +144,4 @@ class Graphe:
                 i += 1
 
         return aretes
-  
-    
- def generer_graphe_aleatoire():
-        g = Graphe()
-        arretes = []
-        nombreMaximal = input('Nombre de sommets maximal : ')
-        nombre_sommets_aleatoire = random.randint(0,int(nombreMaximal))
-        nombre_d_arrete_maximal = (nombre_sommets_aleatoire*(nombre_sommets_aleatoire-1))/2
-        nombre_d_arrete = random.randint(0, nombre_d_arrete_maximal)
-
-        #Ajout des sommets d'une manière aléatoire à notre graphe
-        for i in range(nombre_sommets_aleatoire):
-            sommet_aleatoire = random.choice(['A', 'B', 'C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])
-            if sommet_aleatoire not in g.sommets:
-                sommet_a_ajouter = Sommet(sommet_aleatoire)
-                g.ajouter_sommet(sommet_a_ajouter)
-
-        #Ajout des arretes d'une manière aléatoire à notre graphe
-        for arrete in range(nombre_d_arrete):
-            depart = random.randint(1,len(g.sommets.keys())-1)
-            liste_des_sommets = list(g.sommets)
-            fin = random.randint(1,len(g.sommets.keys())-1)
-            ensemble = liste_des_sommets[depart]+liste_des_sommets[fin]
-            ensemble = ensemble.upper()
-            arretes.append(ensemble)
-        for arrete in arretes:
-            g.ajouter_arrete(arrete[:1], arrete[1:])
-
-        #supprimer les sommets sans voisins
-        for key in sorted(list(g.sommets.keys())):
-            if bool(g.sommets[key].voisins) < 1:
-                del g.sommets[key]
-
-
-        print("La liste des sommets: ")
-        print(list(g.sommets))
-        print("\n")
-
-        print("La liste des arretes: ")
-        print(arretes)
-        print("\n")
-
-        print("Les listes d'adjacences du graphe:")
-        g.afficher_graphe()
-
-
-print("\n------------------------PARTIE 1.1----------------------------\n")
-generer_graphe_aleatoire()
-
-print("------------------------ALBERT BARBASI----------------------------\n")
-g=Graphe()
-print("La liste d'adjacence:")
-print(g.barabasi_albert_graphe(5))
 """
