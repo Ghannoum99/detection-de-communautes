@@ -79,8 +79,15 @@ class Graphe:
         else:
             list_u = random.choices(P + X)
             u = list_u[0]
-            for sommet in P.extend(self.get_voisin(u)):
-                self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R.append(sommet),
+            
+            iterateur = filter(lambda x: x not in self.get_voisin(u), P)
+            list_voisins = list(iterateur)
+                            
+            P.extend(list_voisins)
+            
+            for sommet in P:
+                R.append(sommet)
+                self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                               list(set(X).intersection(self.get_voisin(sommet))))
 
                 P.remove(sommet)
@@ -89,11 +96,14 @@ class Graphe:
     # Version avec ordonnancement des noeuds
     def version_avec_ordonnancement(self, graphe):
         P = list(self.liste_adjacence.keys())
+        R = []
         X = []
         liste_sommets_degenerescence = self.get_degenerescence_graphe()
 
         for sommet in liste_sommets_degenerescence:
-            self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), sommet,
+            R.clear()
+            R.append(sommet)
+            self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                               list(set(X).intersection(self.get_voisin(sommet))))
             
             P.remove(sommet)
