@@ -117,17 +117,21 @@ class Graphe:
         
         while x <= n:
             x = x + 1
+            print("D", D)
+            print("L", L)
             for i in range(nbrVoisinsMax+1): 
-                print("test", i, D[i])
                 if D[i]:
                     k = max([k, i])
                     v = random.choice(D[i])
+                    print("v", v)
                     L.insert(0, v)
+                    print("L", L)
                     D[i].remove(v)
                     voisinsV = self.liste_adjacence[v]
                     for w in voisinsV:
                         if w not in L:
-                            nbrVoisinsW = len(self.liste_adjacence[w])-1
+                            ind = len(self.liste_adjacence[w])
+                            nbrVoisinsW = ind-1
                             D[nbrVoisinsW].append(w)
                         
         print("res", L)
