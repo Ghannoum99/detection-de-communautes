@@ -104,9 +104,7 @@ class Graphe:
         
         nbrVoisinsMax = max(map(lambda x: len(x), self.liste_adjacence.values()))
         D = [list() for i in range(nbrVoisinsMax+1)]
-        print("nbr", nbrVoisinsMax)
-        print("arr", self.liste_adjacence.values(), D)
-        
+     
         for sommet, liste in self.liste_adjacence.items():
             i = len(liste)
             D[i].append(sommet)
@@ -117,20 +115,24 @@ class Graphe:
         
         while x <= n:
             x = x + 1
-            print("D", D)
+            print("\nD", D)
             print("L", L)
             for i in range(nbrVoisinsMax+1): 
                 if D[i]:
                     k = max([k, i])
                     v = random.choice(D[i])
-                    print("v", v)
+                    print("\nv", v)
                     L.insert(0, v)
                     print("L", L)
                     D[i].remove(v)
                     voisinsV = self.liste_adjacence[v]
+                    print("voisins", voisinsV)
                     for w in voisinsV:
                         if w not in L:
+                            print("voisin", w)
                             ind = len(self.liste_adjacence[w])
+                            if w in D[ind]:
+                                D[ind].remove(w)
                             nbrVoisinsW = ind-1
                             D[nbrVoisinsW].append(w)
                         
