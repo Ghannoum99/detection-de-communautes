@@ -90,12 +90,50 @@ class Graphe:
         P = list(self.liste_adjacence.keys())
         R = []
         X = []
-        for sommet in graphe.liste_adjacence.keys():
+        liste_sommets_degenerescence = self.get_degenerescence_graphe()
+        for sommet in liste_sommets_degenerescence:
             self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), sommet,
-                                          list(set(X).intersection(self.get_voisin(sommet))))
+                                              list(set(X).intersection(self.get_voisin(sommet))))
+            
             P.remove(sommet)
             X.append(sommet)
-
+            
+    def get_degenerescence_graphe(self):
+        L = list()
+        D = []
+        
+        nbrVoisinsMax = max(map(lambda x: len(x), self.liste_adjacence.values()))
+        D = [list() for i in range(nbrVoisinsMax+1)]
+        print("nbr", nbrVoisinsMax)
+        print("arr", self.liste_adjacence.values(), D)
+        
+        for sommet, liste in self.liste_adjacence.items():
+            i = len(liste)
+            D[i].append(sommet)
+              
+        k = 0
+        n = len(self.liste_adjacence.keys())
+        x = 0
+        
+        while x <= n:
+            x = x + 1
+            for i in range(nbrVoisinsMax+1): 
+                print("test", i, D[i])
+                if D[i]:
+                    k = max([k, i])
+                    v = random.choice(D[i])
+                    L.insert(0, v)
+                    D[i].remove(v)
+                    voisinsV = self.liste_adjacence[v]
+                    for w in voisinsV:
+                        if w not in L:
+                            nbrVoisinsW = len(self.liste_adjacence[w])-1
+                            D[nbrVoisinsW].append(w)
+                        
+        print("res", L)
+        
+        return L
+    
     def graphe_aleatoire(self, nombre_sommet):
         liste_adjacence = {}
 
