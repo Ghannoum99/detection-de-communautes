@@ -16,4 +16,4 @@ if __name__ == '__main__':
 
     graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
     graphe.afficher_graphe()
-    graphe.version_avec_ordonnancement(graphe)
+    print(graphe.version_avec_ordonnancement())

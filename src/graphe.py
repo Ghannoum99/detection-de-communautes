@@ -75,6 +75,7 @@ class Graphe:
     # Algorithme de Bron Kerbosch avec pivot
     def bron_kerbosch_avec_pivot(self, P, R, X):
         if len(P) == 0 and len(X) == 0:
+            print("R", R)
             return R
         else:
             list_u = random.choices(P + X)
@@ -94,11 +95,11 @@ class Graphe:
                 X.append(sommet)
 
     # Version avec ordonnancement des noeuds
-    def version_avec_ordonnancement(self, graphe):
+    def version_avec_ordonnancement(self):
         P = list(self.liste_adjacence.keys())
         R = []
         X = []
-        liste_sommets_degenerescence = self.get_degenerescence_graphe()
+        liste_sommets_degenerescence = self.get_degenerescence_graphe()[1]
 
         for sommet in liste_sommets_degenerescence:
             R.clear()
@@ -152,8 +153,29 @@ class Graphe:
                     print("\nD", D)
              
         print("L", L)
-        return L
+        
+        return [k, L]
     
+    # PAS FINI Algorithme d'énumération des cliques maximales
+    def enumeration_cliquesMax(self):
+        k = self.get_degenerescence_graphe()[0]
+        liste_degenerescence = self.get_degenerescence_graphe()[1]
+        liste_adjacence_degenerescence = []
+        
+        for sommet in liste_degenerescence: 
+            liste_adjacence_degenerescence.append({sommet: self.liste_adjacence.get_voisin(sommet)})
+            
+        T = []
+        
+        n = len(self.liste_adjacence.keys())
+        
+        for j in range(1, n):
+            cliquesMaximales = self.version_avec_ordonnancement()
+            for clique in cliquesMaximales:
+                indexK = T.index(k)
+            
+        return T
+        
     def graphe_aleatoire(self, nombre_sommet):
         liste_adjacence = {}
 
