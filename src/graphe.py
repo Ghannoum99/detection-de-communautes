@@ -56,7 +56,7 @@ class Graphe:
         return Graphe(liste_adjacence)
 
     def get_voisin(self, sommet):
-       return self.liste_adjacence[sommet]
+        return self.liste_adjacence[sommet]
 
     # P: ensemble des sommets candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
@@ -88,9 +88,9 @@ class Graphe:
     # Version avec ordonnancement des noeuds
     def version_avec_ordonnancement(self, graphe):
         P = list(self.liste_adjacence.keys())
-        R = []
         X = []
         liste_sommets_degenerescence = self.get_degenerescence_graphe()
+
         for sommet in liste_sommets_degenerescence:
             self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), sommet,
                                               list(set(X).intersection(self.get_voisin(sommet))))
@@ -98,6 +98,9 @@ class Graphe:
             P.remove(sommet)
             X.append(sommet)
             
+    # Algorithme de dégénérescence d'un graphe
+    # Cet algorithme retourne un ordre de dégénérescence des sommets du graphe
+    # commençant par le sommet ayant le plus haut degré
     def get_degenerescence_graphe(self):
         L = list()
         D = []
@@ -130,14 +133,14 @@ class Graphe:
                     for w in voisinsV:
                         if w not in L:
                             print("voisin", w)
-                            ind = len(self.liste_adjacence[w])
-                            if w in D[ind]:
-                                D[ind].remove(w)
-                            nbrVoisinsW = ind-1
-                            D[nbrVoisinsW].append(w)
-                        
-        print("res", L)
-        
+                            iterateur = filter(lambda x: x not in L or x == v, self.liste_adjacence[w])
+                            list_voisins = list(iterateur)
+                            ind = len(list_voisins)
+                            D[ind].remove(w)
+                            D[ind-1].append(w)
+                    print("\nD", D)
+             
+        print("L", L)
         return L
     
     def graphe_aleatoire(self, nombre_sommet):
