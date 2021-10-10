@@ -77,7 +77,8 @@ class Graphe:
         if len(P) == 0 and len(X) == 0:
             return R
         else:
-            u = random.choices(P + X)
+            list_u = random.choices(P + X)
+            u = list_u[0]
             for sommet in P.extend(self.get_voisin(u)):
                 self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R.append(sommet),
                                               list(set(X).intersection(self.get_voisin(sommet))))
@@ -133,7 +134,7 @@ class Graphe:
                     for w in voisinsV:
                         if w not in L:
                             print("voisin", w)
-                            iterateur = filter(lambda x: x not in L or x == v, self.liste_adjacence[w])
+                            iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
                             D[ind].remove(w)
