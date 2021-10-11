@@ -1,4 +1,6 @@
 from graphe import Graphe
+import networkx as nx
+import matplotlib.pyplot as plt
 
 NOMBRE_SOMMET = 4
 
@@ -16,4 +18,3 @@ if __name__ == '__main__':
 
     graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
     graphe.afficher_graphe()
-    print(graphe.enumeration_cliquesMax())
