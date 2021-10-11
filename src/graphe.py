@@ -106,8 +106,9 @@ class Graphe:
         for sommet in liste_sommets_degenerescence:
             R.clear()
             R.append(sommet)
-            V.extend(self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                              list(set(X).intersection(self.get_voisin(sommet)))))
+            V = self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
+                                              list(set(X).intersection(self.get_voisin(sommet))))
+            print(sommet, V)
             
             P.remove(sommet)
             X.append(sommet)
@@ -161,7 +162,7 @@ class Graphe:
         return [k, L]
     
     # Algorithme d'énumération des cliques maximales
-    def enumeration_cliquesMax(self):
+    def enumeration_cliques_max(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]
         
