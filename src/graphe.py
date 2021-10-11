@@ -35,6 +35,53 @@ class Graphe:
         for sommet, voisin in self.liste_adjacence.items():
             print("L(" + str(sommet) + ") = " + str(self.liste_adjacence[sommet]))
 
+    def verif_graphe_connexe(self, liste_adjacence):
+        for sommet in list(liste_adjacence.keys()):
+            if len(liste_adjacence[sommet]) < 1:
+                del liste_adjacence[sommet]
+        return liste_adjacence
+
+    def get_voisin(self, sommet):
+        return self.liste_adjacence[sommet]
+
+
+    ##############################################################################################################
+    ############################### PREMIERE PARTIE : GENERER DES GRAPHES ALEATOIRES #############################
+    ##############################################################################################################
+
+    ################################################ PARTIE 1.1 ##################################################
+    # EXPLICATION
+
+    def graphe_aleatoire(self, nombre_sommet):
+        liste_adjacence = {}
+
+        liste_adjacence = self.initialiser_liste_adjacence(nombre_sommet)
+
+        for sommet in liste_adjacence.keys():
+            P = liste_adjacence
+            #del P[sommet]
+
+            for voisin_possible in P.keys():
+                if sommet in P[voisin_possible]:
+                    liste_adjacence[sommet].append(voisin_possible)
+
+            liste_voisin = []
+            liste_voisin = list(P.keys())
+            for sommet_voisin in range(sommet + 1 , len(liste_adjacence) + 1):
+                if sommet_voisin not in liste_adjacence[sommet]:
+                    #probabilite = random.gauss(0, 1)
+                    probabilite = random.random()
+                    print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
+                    if (probabilite > 0) and (probabilite < 1):
+                        # Il faut ajouter l'arete selon l'ordre
+                        # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
+                        liste_adjacence[sommet].append(sommet_voisin)
+
+        liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
+        return Graphe(liste_adjacence)
+
+    ########################## PARTIE 1.2 : GENERER LES GRAPHES DE Barabasi-Albert #############################
+    # EXPLICATION
     def graphe_barabasi_albert(self, m):
         if m <= 0:
             return Graphe()
@@ -56,9 +103,15 @@ class Graphe:
 
         return Graphe(liste_adjacence)
 
-    def get_voisin(self, sommet):
-        return self.liste_adjacence[sommet]
 
+
+    ##############################################################################################################
+    ############################################# DEUXIEME PARTIE ################################################
+    ##############################################################################################################
+
+    ################################################ PARTIE 2.1 ##################################################
+
+    # Algorithme de Bron Kerbosch Version Standard
     # P: ensemble des sommets candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
     # X: contient des sommets deja traites ou appartenant deja a une clique maximale
@@ -71,9 +124,13 @@ class Graphe:
                 R.append(sommet)
                 self.bron_kerbosch_sans_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                               list(set(X).intersection(self.get_voisin(sommet))))
-                #P.remove(sommet)
+                # P.remove(sommet)
                 del P[sommet]
                 X.append(sommet)
+
+
+    ################################################ PARTIE 2.2 ##################################################
+    # Algorithme de Bron Kerbosch version améliorée
 
     # Algorithme de Bron Kerbosch avec pivot
     def bron_kerbosch_avec_pivot(self, P, R, X):
@@ -83,12 +140,12 @@ class Graphe:
         else:
             list_u = random.choices(P + X)
             u = list_u[0]
-            
+
             iterateur = filter(lambda x: x not in self.get_voisin(u), P)
             list_voisins = list(iterateur)
-                            
+
             P.extend(list_voisins)
-            
+
             for sommet in P:
                 R.append(sommet)
                 self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
@@ -109,36 +166,36 @@ class Graphe:
             R.clear()
             R.append(sommet)
             V.extend(self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                              list(set(X).intersection(self.get_voisin(sommet)))))
-            
+                                                   list(set(X).intersection(self.get_voisin(sommet)))))
+
             P.remove(sommet)
             X.append(sommet)
-            
+
         return V
-            
+
     # Algorithme de dégénérescence d'un graphe
     # Cet algorithme retourne un ordre de dégénérescence des sommets du graphe
     # commençant par le sommet ayant le plus haut degré
     def get_degenerescence_graphe(self):
         L = list()
         D = []
-        
+
         nbr_voisins_max = max(map(lambda x: len(x), self.liste_adjacence.values()))
-        D = [list() for i in range(nbr_voisins_max+1)]
-     
+        D = [list() for i in range(nbr_voisins_max + 1)]
+
         for sommet, liste in self.liste_adjacence.items():
             i = len(liste)
             D[i].append(sommet)
-              
+
         k = 0
         n = len(self.liste_adjacence.keys())
         x = 0
-        
+
         while x <= n:
             x = x + 1
             print("\nD", D)
             print("L", L)
-            for i in range(nbr_voisins_max+1): 
+            for i in range(nbr_voisins_max + 1):
                 if D[i]:
                     k = max([k, i])
                     v = random.choice(D[i])
@@ -155,28 +212,41 @@ class Graphe:
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
                             D[ind].remove(w)
-                            D[ind-1].append(w)
+                            D[ind - 1].append(w)
                     print("\nD", D)
-             
+
         print("L", L)
-        
+
         return [k, L]
-    
+
+    ##############################################################################################################
+    ############################################# TROISIEME PARTIE ###############################################
+    ##############################################################################################################
+
+
+    ################################################ PARTIE 3.1 ##################################################
+    # EXPLICATION
+
+
+
+    ################################################ PARTIE 3.2 ##################################################
+    # EXPLICATION
+
     # Algorithme d'énumération des cliques maximales
     def enumeration_cliquesMax(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]
-        
+
         liste_adjacence_degenerescence: dict = {}
-        for sommet in liste_degenerescence: 
+        for sommet in liste_degenerescence:
             liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
-            
+
         T = []
-        
+
         n = len(self.liste_adjacence.keys())
-        
+
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
-          
+
         for j in range(1, n):
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in clique_maximales:
@@ -190,38 +260,7 @@ class Graphe:
                 else:
                     T.append(liste_degenerescence_clique_k)
                     return liste_degenerescence_clique_k
-                
+
         return T
-        
-    def graphe_aleatoire(self, nombre_sommet):
-        liste_adjacence = {}
 
-        liste_adjacence = self.initialiser_liste_adjacence(nombre_sommet)
 
-        for sommet in liste_adjacence.keys():
-            P = liste_adjacence
-            #del P[sommet]
-
-            for voisin_possible in P.keys():
-                if sommet in P[voisin_possible]:
-                    liste_adjacence[sommet].append(voisin_possible)
-
-            liste_voisin = []
-            liste_voisin = list(P.keys())
-            for sommet_voisin in range(sommet + 1 , len(liste_adjacence) + 1):
-                if sommet_voisin not in liste_adjacence[sommet]:
-                    probabilite = random.gauss(0, 1)
-                    print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
-                    if (probabilite > 0) and (probabilite < 1):
-                        # Il faut ajouter l'arete selon l'ordre
-                        # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
-                        liste_adjacence[sommet].append(sommet_voisin)
-                        
-        liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
-        return Graphe(liste_adjacence)
-
-    def verif_graphe_connexe(self, liste_adjacence):
-        for sommet in liste_adjacence.keys():
-            if len(liste_adjacence[sommet]) < 1:
-                del liste_adjacence[sommet]
-        return liste_adjacence
