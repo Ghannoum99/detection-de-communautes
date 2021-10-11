@@ -5,7 +5,6 @@ import random
 class Graphe:
     def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
-        print("to", self.liste_adjacence)
 
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
@@ -68,9 +67,11 @@ class Graphe:
             return R
         else:
             for sommet in P:
-                self.bron_kerbosch_sans_pivot(list(set(P).intersection(self.get_voisin(sommet))), R.append(sommet),
+                R.append(sommet)
+                self.bron_kerbosch_sans_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                               list(set(X).intersection(self.get_voisin(sommet))))
-                P.remove(sommet)
+                #P.remove(sommet)
+                del P[sommet]
                 X.append(sommet)
 
     # Algorithme de Bron Kerbosch avec pivot
@@ -215,5 +216,12 @@ class Graphe:
                         # Il faut ajouter l'arete selon l'ordre
                         # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
                         liste_adjacence[sommet].append(sommet_voisin)
-
+                        
+        liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
         return Graphe(liste_adjacence)
+
+    def verif_graphe_connexe(self, liste_adjacence):
+        for sommet in liste_adjacence.keys():
+            if len(liste_adjacence[sommet]) < 1:
+                del liste_adjacence[sommet]
+        return liste_adjacence
