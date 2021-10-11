@@ -3,11 +3,8 @@ import random
 
 
 class Graphe:
-    def __init__(self, liste_adjacence = None):
-        if liste_adjacence is None:
-            self.liste_adjacence : dict = {}
-        else:
-            self.liste_adjacence = liste_adjacence
+    def __init__(self, liste_adjacence: dict = {}):
+        self.liste_adjacence = liste_adjacence
 
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
@@ -102,16 +99,19 @@ class Graphe:
         P = list(self.liste_adjacence.keys())
         R = []
         X = []
+        V = []
         liste_sommets_degenerescence = self.get_degenerescence_graphe()[1]
 
         for sommet in liste_sommets_degenerescence:
             R.clear()
             R.append(sommet)
-            self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                              list(set(X).intersection(self.get_voisin(sommet))))
+            V.extend(self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
+                                              list(set(X).intersection(self.get_voisin(sommet)))))
             
             P.remove(sommet)
             X.append(sommet)
+            
+        return V
             
     # Algorithme de dégénérescence d'un graphe
     # Cet algorithme retourne un ordre de dégénérescence des sommets du graphe
@@ -120,8 +120,8 @@ class Graphe:
         L = list()
         D = []
         
-        nbrVoisinsMax = max(map(lambda x: len(x), self.liste_adjacence.values()))
-        D = [list() for i in range(nbrVoisinsMax+1)]
+        nbr_voisins_max = max(map(lambda x: len(x), self.liste_adjacence.values()))
+        D = [list() for i in range(nbr_voisins_max+1)]
      
         for sommet, liste in self.liste_adjacence.items():
             i = len(liste)
@@ -135,7 +135,7 @@ class Graphe:
             x = x + 1
             print("\nD", D)
             print("L", L)
-            for i in range(nbrVoisinsMax+1): 
+            for i in range(nbr_voisins_max+1): 
                 if D[i]:
                     k = max([k, i])
                     v = random.choice(D[i])
@@ -159,7 +159,7 @@ class Graphe:
         
         return [k, L]
     
-    # PAS FINI Algorithme d'énumération des cliques maximales
+    # Algorithme d'énumération des cliques maximales
     def enumeration_cliquesMax(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]
@@ -175,18 +175,18 @@ class Graphe:
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
             
         for j in range(1, n):
-            cliquesMaximales = graphe_g_degen.bron_kerbosch_avec_pivot()
-            for cliqueK in cliquesMaximales:
-                iterateur = filter(lambda x: x in cliqueK, self.liste_adjacence)
-                liste_adjacence_cliqueK = list(iterateur)
-                grapheCliqueK = Graphe(liste_adjacence_cliqueK)
-                liste_degenerescence_cliqueK = grapheCliqueK.get_degenerescence_graphe()[1]
-                countCliqueK = T.count(liste_degenerescence_cliqueK)
-                if countCliqueK > 0:
+            clique_maximales = graphe_g_degen.version_avec_ordonnancement()
+            for clique_k in clique_maximales:
+                iterateur = filter(lambda x: x in clique_k, self.liste_adjacence)
+                liste_adjacence_clique_k = list(iterateur)
+                grapheclique_k = Graphe(liste_adjacence_clique_k)
+                liste_degenerescence_clique_k = grapheclique_k.get_degenerescence_graphe()[1]
+                countclique_k = T.count(liste_degenerescence_clique_k)
+                if countclique_k > 0:
                     print("reject")
                 else:
-                    T.append(liste_degenerescence_cliqueK)
-                    return liste_degenerescence_cliqueK
+                    T.append(liste_degenerescence_clique_k)
+                    return liste_degenerescence_clique_k
                 
         return T
         
