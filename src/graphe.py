@@ -1,10 +1,14 @@
 from collections import defaultdict
+import networkx as nx
+import matplotlib.pyplot as plt
 import random
 
 
 class Graphe:
+
     def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
+        print("to", self.liste_adjacence)
 
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
@@ -33,6 +37,22 @@ class Graphe:
     def afficher_graphe(self):
         for sommet, voisin in self.liste_adjacence.items():
             print("L(" + str(sommet) + ") = " + str(self.liste_adjacence[sommet]))
+
+    def dessiner_graphe(self):
+        G = nx.DiGraph()
+
+        for sommet in self.liste_adjacence.keys():
+
+            G.add_node(sommet)
+            for voisins in range(0, len(self.liste_adjacence[sommet])):
+                G.add_edge(sommet, self.liste_adjacence[sommet][voisins])
+
+        pos = nx.spring_layout(G)
+
+        nx.draw_networkx_nodes(G, pos)
+        nx.draw_networkx_labels(G, pos)
+        nx.draw_networkx_edges(G, pos, edge_color='r', arrows=False)
+        plt.show()
 
     def verif_graphe_connexe(self, liste_adjacence):
         for sommet in list(liste_adjacence.keys()):
@@ -164,7 +184,6 @@ class Graphe:
         for sommet in liste_sommets_degenerescence:
             R.clear()
             R.append(sommet)
-            
             V.extend(self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                                    list(set(X).intersection(self.get_voisin(sommet)))))
 
@@ -227,7 +246,7 @@ class Graphe:
     ################################################ PARTIE 3.1 ##################################################
     # EXPLICATION
     # Algorithme d'énumération des cliques maximales
-    def enumeration_cliques_max(self):
+    def enumeration_cliquesMax(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]
 
@@ -254,7 +273,7 @@ class Graphe:
                 else:
                     T.append(liste_degenerescence_clique_k)
                     return liste_degenerescence_clique_k
-                
+
         return T
 
 
