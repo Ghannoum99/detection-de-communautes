@@ -17,5 +17,6 @@ def generer_graphe_aleatoire(nombre_sommet):
 if __name__ == '__main__':
 
     graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
-    print(type(graphe.bron_kerbosch_sans_pivot(graphe.liste_adjacence.keys(), list(), list())))
-   # graphe.afficher_graphe()
+    graphe.afficher_graphe()
+
+    print(graphe.enumeration_cliques_max())
