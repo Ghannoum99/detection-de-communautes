@@ -3,8 +3,11 @@ import random
 
 
 class Graphe:
-    def __init__(self, liste_adjacence: dict = {}):
-        self.liste_adjacence = liste_adjacence
+    def __init__(self, liste_adjacence = None):
+        if liste_adjacence is None:
+            self.liste_adjacence : dict = {}
+        else:
+            self.liste_adjacence = liste_adjacence
 
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
@@ -169,11 +172,22 @@ class Graphe:
         
         n = len(self.liste_adjacence.keys())
         
-        for j in range(1, n):
-            cliquesMaximales = self.version_avec_ordonnancement()
-            for clique in cliquesMaximales:
-                indexK = T.index(k)
+        graphe_g_degen = Graphe(liste_adjacence_degenerescence)
             
+        for j in range(1, n):
+            cliquesMaximales = graphe_g_degen.bron_kerbosch_avec_pivot()
+            for cliqueK in cliquesMaximales:
+                iterateur = filter(lambda x: x in cliqueK, self.liste_adjacence)
+                liste_adjacence_cliqueK = list(iterateur)
+                grapheCliqueK = Graphe(liste_adjacence_cliqueK)
+                liste_degenerescence_cliqueK = grapheCliqueK.get_degenerescence_graphe()[1]
+                countCliqueK = T.count(liste_degenerescence_cliqueK)
+                if countCliqueK > 0:
+                    print("reject")
+                else:
+                    T.append(liste_degenerescence_cliqueK)
+                    return liste_degenerescence_cliqueK
+                
         return T
         
     def graphe_aleatoire(self, nombre_sommet):
