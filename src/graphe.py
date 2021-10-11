@@ -226,12 +226,6 @@ class Graphe:
 
     ################################################ PARTIE 3.1 ##################################################
     # EXPLICATION
-
-
-
-    ################################################ PARTIE 3.2 ##################################################
-    # EXPLICATION
-
     # Algorithme d'énumération des cliques maximales
     def enumeration_cliquesMax(self):
         k = self.get_degenerescence_graphe()[0]
@@ -260,7 +254,11 @@ class Graphe:
                 else:
                     T.append(liste_degenerescence_clique_k)
                     return liste_degenerescence_clique_k
-
+                
         return T
+
+
+    ################################################ PARTIE 3.2 ##################################################
+    # EXPLICATION
 
 
