@@ -16,7 +16,8 @@ def generer_graphe_aleatoire(nombre_sommet):
 
 if __name__ == '__main__':
 
-    graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
+    graphe = Graphe().graphe_barabasi_albert(3)
     graphe.afficher_graphe()
 
-    print(graphe.enumeration_cliques_max())
+    # Dessiner des graphes
+    graphe.dessiner_graphe()
