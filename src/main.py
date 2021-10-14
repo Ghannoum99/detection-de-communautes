@@ -1,5 +1,5 @@
 from graphe import Graphe
-#import networkx as nx
+import networkx as nx
 import matplotlib.pyplot as plt
 
 NOMBRE_SOMMET = 4

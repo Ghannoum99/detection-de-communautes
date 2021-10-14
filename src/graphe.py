@@ -185,7 +185,7 @@ class Graphe:
             R.clear()
             R.append(sommet)
      
-            print(self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
+            print("retour", self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                                  list(set(X).intersection(self.get_voisin(sommet)))))
 
             P.remove(sommet)
