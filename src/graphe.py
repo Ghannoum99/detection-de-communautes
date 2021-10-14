@@ -8,8 +8,7 @@ class Graphe:
 
     def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
-        print("to", self.liste_adjacence)
-
+        
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
 
