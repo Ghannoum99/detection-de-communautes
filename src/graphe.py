@@ -132,18 +132,16 @@ class Graphe:
     # Cet algorithme n'est pas efficace pour les graphes qui contiennent beaucoup de cliques non maximales
 
     def bron_kerbosch_sans_pivot(self, P, R=None, X=None):
+        P = list(P)
         R = list() if R is None else R
         X = list() if X is None else X
 
         if len(P) == 0 and len(X) == 0:
-            # print(R)
             yield R
 
         else:
             for sommet in P[:]:
-                nouveau_r = R[::]
-                nouveau_r.append(sommet)
-                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), nouveau_r,
+                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
                                                          list(set(X) & set(self.get_voisin(sommet))))
 
                 P.remove(sommet)
@@ -154,6 +152,7 @@ class Graphe:
     # Algorithme de Bron Kerbosch avec pivot
 
     def bron_kerbosch_avec_pivot(self, P, R=None, X=None):
+        P = list(P)
         R = list() if R is None else R
         X = list() if X is None else X
 
@@ -163,9 +162,7 @@ class Graphe:
             pivot = self.choisir_aleatoirement(set(P)) or self.choisir_aleatoirement(set(X))
 
             for sommet in list(set(P).difference(self.get_voisin(pivot))):
-                nouveau_r = R[::]
-                nouveau_r.append(sommet)
-                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), nouveau_r,
+                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
                                                          list(set(X) & set(self.get_voisin(sommet))))
 
                 P.remove(sommet)

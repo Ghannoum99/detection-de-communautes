@@ -15,13 +15,16 @@ def generer_graphe_aleatoire(nombre_sommet):
 if __name__ == '__main__':
 
     #graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
-
-    graphe = Graphe().graphe_barabasi_albert(9)
-    graphe.afficher_graphe()
     R = []
     X = []
+    graphe = Graphe().graphe_barabasi_albert(9)
+    graphe.afficher_graphe()
 
-    print(list(graphe.bron_kerbosch_avec_pivot(list(graphe.liste_adjacence.keys()), None, X)))
+    print("*************************** SANS PIVOT ***************************")
+    print(list(graphe.bron_kerbosch_sans_pivot(list(graphe.liste_adjacence.keys()), R, X)))
+
+    print("*************************** AVEC PIVOT ***************************")
+    print(list(graphe.bron_kerbosch_avec_pivot(list(graphe.liste_adjacence.keys()), R, X)))
 
 
     # Dessiner des graphes
