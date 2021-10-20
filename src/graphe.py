@@ -136,14 +136,15 @@ class Graphe:
     # Cet algorithme n'est pas efficace pour les graphes qui contiennent beaucoup de cliques non maximales
     def bron_kerbosch_sans_pivot(self, P, R, X):
         if len(P) == 0 and len(X) == 0:
+            print(R)
             return R
         else:
             for sommet in P:
                 R.append(sommet)
                 self.bron_kerbosch_sans_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
                                               list(set(X).intersection(self.get_voisin(sommet))))
-                # P.remove(sommet)
-                del P[sommet]
+                P.remove(sommet)
+                #del P[sommet]
                 X.append(sommet)
 
 
@@ -153,7 +154,6 @@ class Graphe:
     # Algorithme de Bron Kerbosch avec pivot
     def bron_kerbosch_avec_pivot(self, P, R, X):
         if len(P) == 0 and len(X) == 0:
-            print("R", R)
             return R
         else:
             list_u = random.choices(P + X)
@@ -174,11 +174,15 @@ class Graphe:
 
     # Version avec ordonnancement des noeuds
     def version_avec_ordonnancement(self):
+        print("Version")
+        
         P = list(self.liste_adjacence.keys())
         R = []
         X = []
         V = []
         liste_sommets_degenerescence = self.get_degenerescence_graphe()[1]
+        print("liste_sommets_degenerescence", liste_sommets_degenerescence)
+        print("P", P)
 
         for sommet in liste_sommets_degenerescence:
             R.clear()
@@ -190,12 +194,14 @@ class Graphe:
             P.remove(sommet)
             X.append(sommet)
 
+        print("Fin Version")
+        
         return V
 
     # Algorithme de dégénérescence d'un graphe
     # Cet algorithme retourne un ordre de dégénérescence des sommets du graphe
     # commençant par le sommet ayant le plus haut degré
-    def get_degenerescence_graphe(self):
+    def get_degenerescence_graphe(self): 
         L = list()
         D = []
 
@@ -212,29 +218,20 @@ class Graphe:
 
         while x <= n:
             x = x + 1
-            print("\nD", D)
-            print("L", L)
             for i in range(nbr_voisins_max + 1):
                 if D[i]:
                     k = max([k, i])
                     v = random.choice(D[i])
-                    print("\nv", v)
                     L.insert(0, v)
-                    print("L", L)
                     D[i].remove(v)
                     voisinsV = self.liste_adjacence[v]
-                    print("voisins", voisinsV)
                     for w in voisinsV:
                         if w not in L:
-                            print("voisin", w)
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
                             D[ind].remove(w)
                             D[ind - 1].append(w)
-                    print("\nD", D)
-
-        print("L", L)
 
         return [k, L]
 
@@ -246,6 +243,7 @@ class Graphe:
     ################################################ PARTIE 3.1 ##################################################
     # EXPLICATION
     # Algorithme d'énumération des cliques maximales
+    # Retourne la dégénérescence du graphe et la liste des sommets dans un ordre optimal pour la coloration de graphe
     def enumeration_cliquesMax(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]

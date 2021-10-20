@@ -1,6 +1,4 @@
 from graphe import Graphe
-import networkx as nx
-import matplotlib.pyplot as plt
 
 NOMBRE_SOMMET = 4
 
@@ -21,3 +19,4 @@ if __name__ == '__main__':
 
     # Dessiner des graphes
     graphe.dessiner_graphe()
+    print("Res version", graphe.version_avec_ordonnancement())
