@@ -156,6 +156,7 @@ class Graphe:
 
     def bron_kerbosch_avec_pivot(self, P, R, X):
         if len(P) == 0 and len(X) == 0:
+            print(R)
             return R
         else:
             list_u = random.choices(P + X)
@@ -166,10 +167,12 @@ class Graphe:
 
             P.extend(list_voisins)
 
-            for sommet in P:
-                R.append(sommet)
-                self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                              list(set(X).intersection(self.get_voisin(sommet))))
+            for sommet in P[:]:
+                r_new = R[::]
+                r_new.append(sommet)
+                p_new = [val for val in P if val in self.get_voisin(sommet)]
+                x_new = [val for val in X if val in self.get_voisin(sommet)]
+                self.bron_kerbosch_sans_pivot(p_new, r_new, x_new)
 
                 P.remove(sommet)
                 X.append(sommet)

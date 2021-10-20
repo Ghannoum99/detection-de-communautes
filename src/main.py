@@ -16,10 +16,11 @@ if __name__ == '__main__':
 
     #graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
 
-    graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
+    graphe = Graphe().graphe_barabasi_albert(9)
     graphe.afficher_graphe()
     R = []
     X = []
+
     graphe.bron_kerbosch_sans_pivot(list(graphe.liste_adjacence.keys()), R, X)
 
     # Dessiner des graphes
