@@ -168,6 +168,7 @@ class Graphe:
                 P.remove(sommet)
                 X.append(sommet)
 
+    # Choisir un element aléatoire du "Set": ensemble
     def choisir_aleatoirement(self, ensemble):
         if len(ensemble) != 0:
             pivot = ensemble.pop()
