@@ -21,7 +21,8 @@ if __name__ == '__main__':
     R = []
     X = []
 
-    graphe.bron_kerbosch_sans_pivot(list(graphe.liste_adjacence.keys()), R, X)
+    print(list(graphe.bron_kerbosch_avec_pivot(list(graphe.liste_adjacence.keys()), None, X)))
+
 
     # Dessiner des graphes
     graphe.dessiner_graphe()
