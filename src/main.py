@@ -13,8 +13,6 @@ def generer_graphe_aleatoire(nombre_sommet):
 """
 
 if __name__ == '__main__':
-
-    #graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
     R = []
     X = []
     graphe = Graphe().graphe_barabasi_albert(9)
