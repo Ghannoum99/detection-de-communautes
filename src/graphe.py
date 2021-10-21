@@ -254,7 +254,7 @@ class Graphe:
         return T
 
     ################################################ PARTIE 3.2 ##################################################
-    # EXPLICATION
+    # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]
@@ -270,8 +270,8 @@ class Graphe:
         for j in range(1, n):
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in clique_maximales:
-                for sommet in clique_maximales:
-                    if self.get_voisin(sommet) < self.get_voisin(clique_k):
+                for sommet in clique_k:
+                    if len(self.get_voisin(sommet)) < self.get_degenerescence_graphe()[0] and sommet in clique_k:
                         print("reject")
                     else:
-                        return clique_k
+                        print(clique_k)
