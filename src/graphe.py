@@ -256,7 +256,7 @@ class Graphe:
 
     ################################################ PARTIE 3.2 ##################################################
     # EXPLICATION
-    def enumeration_cliquesMax_2(self):
+    def enumeration_cliques_max_2(self):
         k = self.get_degenerescence_graphe()[0]
         liste_degenerescence = self.get_degenerescence_graphe()[1]
 

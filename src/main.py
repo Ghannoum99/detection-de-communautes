@@ -32,7 +32,7 @@ if __name__ == '__main__':
     print("********************* ENUMERATION CLIQUES MAXIMALES ********************")
     print(graphe.enumeration_cliques_max())
     
-    print("********************* ENUMERATION CLIQUES MAXIMALES V2 ********************")
+    print("****************** ENUMERATION CLIQUES MAXIMALES V2 *****************")
     print(graphe.enumeration_cliques_max_2())
 
     # Dessiner des graphes
