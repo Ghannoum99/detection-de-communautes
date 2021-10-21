@@ -20,19 +20,19 @@ if __name__ == '__main__':
     graphe = Graphe().graphe_barabasi_albert(9)
     graphe.afficher_graphe()
 
-    print("*************************** SANS PIVOT ***************************")
+    print("\n*************************** SANS PIVOT ***************************")
     print(list(graphe.bron_kerbosch_sans_pivot(list(graphe.liste_adjacence.keys()), R, X)))
 
-    print("*************************** AVEC PIVOT ***************************")
+    print("\n*************************** AVEC PIVOT ***************************")
     print(list(graphe.bron_kerbosch_avec_pivot(list(graphe.liste_adjacence.keys()), R, X)))
 
-    print("********************* AVEC ORDRE DE DEGENERESCENCE ********************")
+    print("\n********************* AVEC ORDRE DE DEGENERESCENCE ********************")
     print(list(graphe.version_avec_ordonnancement()))
 
-    print("********************* ENUMERATION CLIQUES MAXIMALES ********************")
+    print("\n********************* ENUMERATION CLIQUES MAXIMALES ********************")
     print(graphe.enumeration_cliques_max())
     
-    print("****************** ENUMERATION CLIQUES MAXIMALES V2 *****************")
+    #print("****************** ENUMERATION CLIQUES MAXIMALES V2 *****************")
     #print(graphe.enumeration_cliques_max_2())
 
     # Dessiner des graphes
