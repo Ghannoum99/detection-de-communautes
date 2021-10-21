@@ -237,7 +237,7 @@ class Graphe:
 
         liste_adjacence_degenerescence: dict = {}
         for sommet in liste_degenerescence:
-            liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
+            liste_adjacence_degenerescence[sommet]=self.get_voisin(sommet)
 
         T: dict = {}
 
