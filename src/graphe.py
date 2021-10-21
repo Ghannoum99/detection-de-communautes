@@ -256,3 +256,23 @@ class Graphe:
 
     ################################################ PARTIE 3.2 ##################################################
     # EXPLICATION
+    def enumeration_cliquesMax_2(self):
+        k = self.get_degenerescence_graphe()[0]
+        liste_degenerescence = self.get_degenerescence_graphe()[1]
+
+        liste_adjacence_degenerescence: dict = {}
+        for sommet in liste_degenerescence:
+            liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
+
+        n = len(self.liste_adjacence.keys())
+
+        graphe_g_degen = Graphe(liste_adjacence_degenerescence)
+
+        for j in range(1, n):
+            clique_maximales = graphe_g_degen.version_avec_ordonnancement()
+            for clique_k in clique_maximales:
+                for sommet in clique_maximales:
+                    if self.get_voisin(sommet) < self.get_voisin(clique_k):
+                        print("reject")
+                    else:
+                        return clique_k
