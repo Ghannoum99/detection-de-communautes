@@ -232,7 +232,6 @@ class Graphe:
     ################################################ PARTIE 3.1 ##################################################
     # EXPLICATION
     # Algorithme d'énumération des cliques maximales
-    # Retourne la dégénérescence du graphe et la liste des sommets dans un ordre optimal pour la coloration de graphe
     def enumeration_cliques_max(self):
         liste_degenerescence = self.get_degenerescence_graphe()[1]
 
