@@ -8,7 +8,7 @@ class Graphe:
 
     def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
-        
+
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
 
@@ -62,7 +62,6 @@ class Graphe:
     def get_voisin(self, sommet):
         return self.liste_adjacence[sommet]
 
-
     ##############################################################################################################
     ############################### PREMIERE PARTIE : GENERER DES GRAPHES ALEATOIRES #############################
     ##############################################################################################################
@@ -77,25 +76,23 @@ class Graphe:
 
         for sommet in liste_adjacence.keys():
             P = liste_adjacence
-            #del P[sommet]
+            # del P[sommet]
 
             for voisin_possible in P.keys():
                 if sommet in P[voisin_possible]:
                     liste_adjacence[sommet].append(voisin_possible)
 
-            liste_voisin = []
-            liste_voisin = list(P.keys())
-            for sommet_voisin in range(sommet + 1 , len(liste_adjacence) + 1):
+            for sommet_voisin in range(sommet + 1, len(liste_adjacence) + 1):
                 if sommet_voisin not in liste_adjacence[sommet]:
-                    #probabilite = random.gauss(0, 1)
-                    probabilite = random.random()
+                    probabilite = random.gauss(0, 2)
+                    # probabilite = random.random()
                     print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
                     if (probabilite > 0) and (probabilite < 1):
                         # Il faut ajouter l'arete selon l'ordre
                         # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
                         liste_adjacence[sommet].append(sommet_voisin)
 
-        liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
+        # liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
         return Graphe(liste_adjacence)
 
     ########################## PARTIE 1.2 : GENERER LES GRAPHES DE Barabasi-Albert #############################
@@ -119,88 +116,81 @@ class Graphe:
                     liste_adjacence[i].append(noeud)
                     liste_adjacence[noeud].append(i)
 
+        # liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
+
         return Graphe(liste_adjacence)
-
-
 
     ##############################################################################################################
     ############################################# DEUXIEME PARTIE ################################################
     ##############################################################################################################
 
     ################################################ PARTIE 2.1 ##################################################
-
     # Algorithme de Bron Kerbosch Version Standard
     # P: ensemble des sommets candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
     # X: contient des sommets deja traites ou appartenant deja a une clique maximale
     # Cet algorithme n'est pas efficace pour les graphes qui contiennent beaucoup de cliques non maximales
-    def bron_kerbosch_sans_pivot(self, P, R, X):
-        if len(P) == 0 and len(X) == 0:
-            print(R)
-            return R
-        else:
-            for sommet in P:
-                R.append(sommet)
-                self.bron_kerbosch_sans_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                              list(set(X).intersection(self.get_voisin(sommet))))
-                P.remove(sommet)
-                #del P[sommet]
-                X.append(sommet)
 
+    def bron_kerbosch_sans_pivot(self, P, R=None, X=None):
+        P = list(P)
+        R = list() if R is None else R
+        X = list() if X is None else X
+
+        if len(P) == 0 and len(X) == 0:
+            yield R
+
+        else:
+            for sommet in P[:]:
+                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
+                                                         list(set(X) & set(self.get_voisin(sommet))))
+
+                P.remove(sommet)
+                X.append(sommet)
 
     ################################################ PARTIE 2.2 ##################################################
     # Algorithme de Bron Kerbosch version améliorée
-
     # Algorithme de Bron Kerbosch avec pivot
-    def bron_kerbosch_avec_pivot(self, P, R, X):
+    def bron_kerbosch_avec_pivot(self, P, R=None, X=None):
+        P = list(P)
+        R = list() if R is None else R
+        X = list() if X is None else X
+
         if len(P) == 0 and len(X) == 0:
-            return R
+            yield R
         else:
-            list_u = random.choices(P + X)
-            u = list_u[0]
+            pivot = self.choisir_aleatoirement(set(P)) or self.choisir_aleatoirement(set(X))
 
-            iterateur = filter(lambda x: x not in self.get_voisin(u), P)
-            list_voisins = list(iterateur)
-
-            P.extend(list_voisins)
-
-            for sommet in P:
-                R.append(sommet)
-                self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                              list(set(X).intersection(self.get_voisin(sommet))))
+            for sommet in list(set(P).difference(self.get_voisin(pivot))):
+                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
+                                                         list(set(X) & set(self.get_voisin(sommet))))
 
                 P.remove(sommet)
                 X.append(sommet)
 
+    # Choisir un element aléatoire du "Set": ensemble
+    def choisir_aleatoirement(self, ensemble):
+        if len(ensemble) != 0:
+            pivot = ensemble.pop()
+            ensemble.add(pivot)
+            return pivot
+
     # Version avec ordonnancement des noeuds
     def version_avec_ordonnancement(self):
-        print("Version")
-        
         P = list(self.liste_adjacence.keys())
-        R = []
         X = []
-        V = []
         liste_sommets_degenerescence = self.get_degenerescence_graphe()[1]
-        print("liste_sommets_degenerescence", liste_sommets_degenerescence)
-        print("P", P)
 
         for sommet in liste_sommets_degenerescence:
-            R.clear()
-            R.append(sommet)
-     
-            print("retour", self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), R,
-                                                 list(set(X).intersection(self.get_voisin(sommet)))))
+            yield from self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), [sommet],
+                                                   list(set(X).intersection(self.get_voisin(sommet))))
 
             P.remove(sommet)
             X.append(sommet)
 
-        print("Fin Version")
-        
-        return V
-
     # Algorithme de dégénérescence d'un graphe
-    # Cet algorithme retourne un ordre de dégénérescence des sommets du graphe
-    # commençant par le sommet ayant le plus haut degré
+    # Cet algorithme retourne un int contenant la dégénérescence et la liste
+    # de sommets dans un ordre optimal pour la coloration de graphe
+    # (commençant par le sommet ayant le plus haut degré)
     def get_degenerescence_graphe(self): 
         L = list()
         D = []
@@ -224,7 +214,7 @@ class Graphe:
                     v = random.choice(D[i])
                     L.insert(0, v)
                     D[i].remove(v)
-                    voisinsV = self.liste_adjacence[v]
+                    voisinsV = self.get_voisin(v)
                     for w in voisinsV:
                         if w not in L:
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
@@ -239,43 +229,31 @@ class Graphe:
     ############################################# TROISIEME PARTIE ###############################################
     ##############################################################################################################
 
-
     ################################################ PARTIE 3.1 ##################################################
     # EXPLICATION
     # Algorithme d'énumération des cliques maximales
     # Retourne la dégénérescence du graphe et la liste des sommets dans un ordre optimal pour la coloration de graphe
-    def enumeration_cliquesMax(self):
-        k = self.get_degenerescence_graphe()[0]
+    def enumeration_cliques_max(self):
         liste_degenerescence = self.get_degenerescence_graphe()[1]
 
         liste_adjacence_degenerescence: dict = {}
         for sommet in liste_degenerescence:
             liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
 
-        T = []
+        T: dict = {}
 
         n = len(self.liste_adjacence.keys())
 
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
         for j in range(1, n):
-            clique_maximales = graphe_g_degen.version_avec_ordonnancement()
-            for clique_k in clique_maximales:
-                iterateur = filter(lambda x: x in clique_k, self.liste_adjacence)
-                liste_adjacence_clique_k = list(iterateur)
-                grapheclique_k = Graphe(liste_adjacence_clique_k)
-                liste_degenerescence_clique_k = grapheclique_k.get_degenerescence_graphe()[1]
-                countclique_k = T.count(liste_degenerescence_clique_k)
-                if countclique_k > 0:
-                    print("reject")
-                else:
-                    T.append(liste_degenerescence_clique_k)
-                    return liste_degenerescence_clique_k
-
+            cliques_maximales = graphe_g_degen.version_avec_ordonnancement()
+            for clique_k in cliques_maximales:
+                liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k), key = liste_degenerescence.index)
+                if liste_degenerescence_clique_k not in T.values():
+                    T[j]=liste_degenerescence_clique_k
+                
         return T
-
 
     ################################################ PARTIE 3.2 ##################################################
     # EXPLICATION
-
-
