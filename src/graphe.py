@@ -76,23 +76,21 @@ class Graphe:
 
         for sommet in liste_adjacence.keys():
             P = liste_adjacence
-            # del P[sommet]
 
-            for voisin_possible in P.keys():
-                if sommet in P[voisin_possible]:
-                    liste_adjacence[sommet].append(voisin_possible)
+            if sommet > 1:
+                for voisin_possible in P.keys():
+                    if sommet in P[voisin_possible]:
+                        liste_adjacence[sommet].append(voisin_possible)
 
             for sommet_voisin in range(sommet + 1, len(liste_adjacence) + 1):
                 if sommet_voisin not in liste_adjacence[sommet]:
                     probabilite = random.gauss(0, 2)
-                    # probabilite = random.random()
                     print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
                     if (probabilite > 0) and (probabilite < 1):
                         # Il faut ajouter l'arete selon l'ordre
                         # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
                         liste_adjacence[sommet].append(sommet_voisin)
 
-        # liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
         return Graphe(liste_adjacence)
 
     ########################## PARTIE 1.2 : GENERER LES GRAPHES DE Barabasi-Albert #############################
@@ -116,8 +114,6 @@ class Graphe:
                     liste_adjacence[i].append(noeud)
                     liste_adjacence[noeud].append(i)
 
-        # liste_adjacence = self.verif_graphe_connexe(liste_adjacence)
-
         return Graphe(liste_adjacence)
 
     ##############################################################################################################
@@ -129,7 +125,6 @@ class Graphe:
     # P: ensemble des sommets candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
     # X: contient des sommets deja traites ou appartenant deja a une clique maximale
-    # Cet algorithme n'est pas efficace pour les graphes qui contiennent beaucoup de cliques non maximales
 
     def bron_kerbosch_sans_pivot(self, P, R=None, X=None):
         P = list(P)
@@ -182,7 +177,7 @@ class Graphe:
 
         for sommet in liste_sommets_degenerescence:
             yield from self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), [sommet],
-                                                   list(set(X).intersection(self.get_voisin(sommet))))
+                                                     list(set(X).intersection(self.get_voisin(sommet))))
 
             P.remove(sommet)
             X.append(sommet)
@@ -214,8 +209,8 @@ class Graphe:
                     v = random.choice(D[i])
                     L.insert(0, v)
                     D[i].remove(v)
-                    voisinsV = self.get_voisin(v)
-                    for w in voisinsV:
+                    voisins_v = self.get_voisin(v)
+                    for w in voisins_v:
                         if w not in L:
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
