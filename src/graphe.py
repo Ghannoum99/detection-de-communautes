@@ -239,7 +239,7 @@ class Graphe:
 
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
-        for j in range(1, n):
+        for j in range(1, n+1):
             cliques_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
                 liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k), key = liste_degenerescence.index)
