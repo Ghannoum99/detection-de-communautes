@@ -233,23 +233,23 @@ class Graphe:
         for sommet in liste_degenerescence:
             liste_adjacence_degenerescence[sommet]=self.get_voisin(sommet)
 
-        T: dict = {}
+        T : dict = {}
 
-        n = len(self.liste_adjacence.keys())
+        #n = len(self.liste_adjacence.keys())
 
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
-        for j in range(1, n+1):
+        for j in range(1, len(self.liste_adjacence.keys()) + 1):
             cliques_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
-                liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k), key = liste_degenerescence.index)
+                liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k),
+                                                       key=liste_degenerescence.index)
                 if liste_degenerescence_clique_k not in T.values():
-                    T[j]=liste_degenerescence_clique_k
+                    T[j] = liste_degenerescence_clique_k
                 
         return T
 
     ################################################ PARTIE 3.2 ##################################################
-    # EXPLICATION
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
         k = self.get_degenerescence_graphe()[0]
@@ -259,23 +259,23 @@ class Graphe:
         for sommet in liste_degenerescence:
             liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
 
-        n = len(self.liste_adjacence.keys())
+        #n = len(self.liste_adjacence.keys())
 
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
-        for j in range(1, n):
-            # trié les cliques
+        for j in range(1, len(self.liste_adjacence.keys()) + 1):
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
-            # parcourir tout la liste de clique maximale
             for clique_k in clique_maximales:
-                #parcourir tout les sommets de clique
                 for sommet in clique_k:
-                    reject = False
-                    # parcourir tout les voisins de sommet
-                    for voisin in self.get_voisin(sommet):
-                        # verifier si le voisin de sommet appartient au clique et si l'ordre de voisin est le plus petit
-                        if len(self.get_voisin(voisin)) < k and voisin in clique_k:
-                            reject = True
-                            break;
-                if not reject:
-                    print(clique_k)
+                    if (len(self.get_voisin(sommet)) < self.get_degenerescence_graphe()[0]) and (sommet in clique_k):
+                        print("reject")
+                    else:
+                        yield from clique_maximales
+
+    def enlever_doublons(self, liste):
+        liste_sans_doublons = list()
+        for element in liste:
+            if element not in liste_sans_doublons:
+                liste_sans_doublons.append(element)
+
+        return liste_sans_doublons
