@@ -47,7 +47,7 @@ class Graphe:
         liste_adjacence = {}
         for sommet in range(1, nombre_sommet + 1):
             liste_adjacence[sommet] = []
-            print(liste_adjacence)
+
         return liste_adjacence
 
     def afficher_graphe(self):
@@ -96,7 +96,7 @@ class Graphe:
             for sommet_voisin in range(sommet + 1, len(liste_adjacence) + 1):
                 if sommet_voisin not in liste_adjacence[sommet]:
                     probabilite = random.gauss(0, 2)
-                    print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
+                    #print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
                     if (probabilite > 0) and (probabilite < 1):
                         # Il faut ajouter l'arete selon l'ordre
                         # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
