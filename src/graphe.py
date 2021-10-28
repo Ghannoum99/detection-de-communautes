@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+
+"""
+
+Sujet : Détéction des communautes dans des réseaux sociaux
+
+Auteurs : GHANNOUM Jihad - KHIARI Slim - NOUIRA Nessrine - TOIHIR Yoa
+
+
+
+1. Expliquer ce qu'on a fait dans la classe Graphe (les attributs et les méthodes)
+2. Ajouter des commentaires
+3. Expliquer le rôle de chaque variable
+4. Ajouter les références (les 2 articles)
+
+
+"""
 from collections import defaultdict
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -52,12 +69,6 @@ class Graphe:
         nx.draw_networkx_labels(G, pos)
         nx.draw_networkx_edges(G, pos, edge_color='r', arrows=False)
         plt.show()
-
-    def verif_graphe_connexe(self, liste_adjacence):
-        for sommet in list(liste_adjacence.keys()):
-            if len(liste_adjacence[sommet]) < 1:
-                del liste_adjacence[sommet]
-        return liste_adjacence
 
     def get_voisin(self, sommet):
         return self.liste_adjacence[sommet]
@@ -235,11 +246,11 @@ class Graphe:
 
         T : dict = {}
 
-        #n = len(self.liste_adjacence.keys())
+        n = len(self.liste_adjacence.keys()) + 1
 
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
-        for j in range(1, len(self.liste_adjacence.keys()) + 1):
+        for j in range(1, n):
             cliques_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
                 liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k),
@@ -259,11 +270,11 @@ class Graphe:
         for sommet in liste_degenerescence:
             liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
 
-        #n = len(self.liste_adjacence.keys())
+        n = len(self.liste_adjacence.keys()) + 1
 
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
-        for j in range(1, len(self.liste_adjacence.keys()) + 1):
+        for j in range(1, n):
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in clique_maximales:
                 for sommet in clique_k:
@@ -272,10 +283,3 @@ class Graphe:
                     else:
                         yield from clique_maximales
 
-    def enlever_doublons(self, liste):
-        liste_sans_doublons = list()
-        for element in liste:
-            if element not in liste_sans_doublons:
-                liste_sans_doublons.append(element)
-
-        return liste_sans_doublons
