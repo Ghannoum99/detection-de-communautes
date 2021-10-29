@@ -196,10 +196,12 @@ class Graphe:
     # de sommets dans un ordre optimal pour la coloration de graphe
     # (commençant par le sommet ayant le plus haut degré)
     def get_degenerescence_graphe(self): 
-        # Initialiser une liste L qui sera retournée
+        # Initialisation d'une liste L qui sera retournée
         L = []
         
-        #
+        # Initialisation d'une liste D qui contiendra dans chacune 
+        # de ces cases, les sommets ayant un degré correspondant 
+        # à l'indice de la case
         D = []
 
         nbr_voisins_max = max(map(lambda x: len(x), self.liste_adjacence.values()))
@@ -209,21 +211,29 @@ class Graphe:
             i = len(liste)
             D[i].append(sommet)
 
+        # Initialisation de k à 0
         k = 0
         n = len(self.liste_adjacence.keys())
         x = 0
 
         while x <= n:
             x = x + 1
+            # On parcourt les cases de D en cherchant une qui n'est pas vide
             for i in range(nbr_voisins_max + 1):
                 if D[i]:
                     k = max([k, i])
+                    # On sélectionne aléatoirement un sommet dans D
                     v = random.choice(D[i])
+                    # On ajoute le sommet v au début de la liste L
                     L.insert(0, v)
+                    # On supprime le sommet v de D
                     D[i].remove(v)
                     voisins_v = self.get_voisin(v)
+                    # On parcourt tous les voisins de v 
                     for w in voisins_v:
                         if w not in L:
+                            # On cherche à retirer un degré à w et à le déplacer 
+                            # à l'indice correspondant dans D
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
