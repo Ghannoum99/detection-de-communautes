@@ -233,7 +233,7 @@ class Graphe:
                     for w in voisins_v:
                         if w not in L:
                             # On cherche à retirer un degré à w et à le déplacer 
-                            # à l'indice correspondant dans D
+                            # à l'indice correspondant dans D 
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
