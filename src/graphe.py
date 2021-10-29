@@ -182,7 +182,7 @@ class Graphe:
     def version_avec_ordonnancement(self):
         P = list(self.liste_adjacence.keys())
         X = []
-        liste_sommets_degenerescence = self.get_degenerescence_graphe()[1]
+        liste_sommets_degenerescence = self.get_degenerescence_graphe()
 
         for sommet in liste_sommets_degenerescence:
             yield from self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), [sommet],
@@ -249,7 +249,7 @@ class Graphe:
     ################################################ PARTIE 3.1 ##################################################
     # Algorithme d'énumération des cliques maximales
     def enumeration_cliques_max(self):
-        liste_degenerescence = self.get_degenerescence_graphe()[1]
+        liste_degenerescence = self.get_degenerescence_graphe()
 
         liste_adjacence_degenerescence: dict = {}
         for sommet in liste_degenerescence:
