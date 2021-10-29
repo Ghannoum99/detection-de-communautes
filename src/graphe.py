@@ -200,7 +200,7 @@ class Graphe:
         L = []
         
         # Initialisation d'une liste D qui contiendra dans chacune 
-        # de ces cases, les sommets ayant un degré correspondant 
+        # de ses cases, les sommets ayant un degré correspondant 
         # à l'indice de la case
         D = []
 
