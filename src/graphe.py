@@ -86,17 +86,15 @@ class Graphe:
         liste_adjacence = self.initialiser_liste_adjacence(nombre_sommet)
 
         for sommet in liste_adjacence.keys():
-            P = liste_adjacence
 
             if sommet > 1:
-                for voisin_possible in P.keys():
-                    if sommet in P[voisin_possible]:
+                for voisin_possible in liste_adjacence.keys():
+                    if sommet in liste_adjacence[voisin_possible]:
                         liste_adjacence[sommet].append(voisin_possible)
 
             for sommet_voisin in range(sommet + 1, len(liste_adjacence) + 1):
                 if sommet_voisin not in liste_adjacence[sommet]:
                     probabilite = random.gauss(0, 2)
-                    #print("proba(" + str(sommet) + ", " + str(sommet_voisin) + ") = " + str(probabilite))
                     if (probabilite > 0) and (probabilite < 1):
                         # Il faut ajouter l'arete selon l'ordre
                         # premiere arete du sommet 1 c'est l'arete qui relie le sommet 1 et le sommet 2
