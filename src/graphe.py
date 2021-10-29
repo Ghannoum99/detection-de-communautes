@@ -196,8 +196,10 @@ class Graphe:
     # de sommets dans un ordre optimal pour la coloration de graphe
     # (commençant par le sommet ayant le plus haut degré)
     def get_degenerescence_graphe(self): 
-        # Initialiser une liste L
+        # Initialiser une liste L qui sera retournée
         L = []
+        
+        #
         D = []
 
         nbr_voisins_max = max(map(lambda x: len(x), self.liste_adjacence.values()))
