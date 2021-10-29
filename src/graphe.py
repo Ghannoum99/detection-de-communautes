@@ -187,7 +187,8 @@ class Graphe:
     # de sommets dans un ordre optimal pour la coloration de graphe
     # (commençant par le sommet ayant le plus haut degré)
     def get_degenerescence_graphe(self): 
-        L = list()
+        # Initialiser une liste L
+        L = []
         D = []
 
         nbr_voisins_max = max(map(lambda x: len(x), self.liste_adjacence.values()))
@@ -218,7 +219,7 @@ class Graphe:
                             D[ind].remove(w)
                             D[ind - 1].append(w)
 
-        return [k, L]
+        return L
 
     ##############################################################################################################
     ############################################# TROISIEME PARTIE ###############################################
@@ -252,8 +253,8 @@ class Graphe:
     ################################################ PARTIE 3.2 ##################################################
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
-        k = self.get_degenerescence_graphe()[0]
-        liste_degenerescence = self.get_degenerescence_graphe()[1]
+        k = max(map(lambda x: len(x), self.liste_adjacence.values()))
+        liste_degenerescence = self.get_degenerescence_graphe()
 
         liste_adjacence_degenerescence: dict = {}
         for sommet in liste_degenerescence:
@@ -267,7 +268,7 @@ class Graphe:
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
             for clique_k in clique_maximales:
                 for sommet in clique_k:
-                    if (len(self.get_voisin(sommet)) < self.get_degenerescence_graphe()[0]) and (sommet in clique_k):
+                    if (len(self.get_voisin(sommet)) < k) and (sommet in clique_k):
                         print("reject")
                     else:
                         yield from clique_maximales
