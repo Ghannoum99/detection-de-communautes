@@ -271,6 +271,7 @@ class Graphe:
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
+                # On trie les sommets de la clique en respectant l'ordre de dégénérescence 
                 liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k),
                                                        key=liste_degenerescence.index)
                 if liste_degenerescence_clique_k not in T.values():
