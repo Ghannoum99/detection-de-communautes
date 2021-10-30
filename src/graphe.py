@@ -20,7 +20,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
-
 class Graphe:
 
     def __init__(self, liste_adjacence: dict = {}):
@@ -249,28 +248,52 @@ class Graphe:
     ################################################ PARTIE 3.1 ##################################################
     # Algorithme d'énumération des cliques maximales
     def enumeration_cliques_max(self):
+        # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
 
-        liste_adjacence_degenerescence: dict = {}
-        for sommet in liste_degenerescence:
-            liste_adjacence_degenerescence[sommet]=self.get_voisin(sommet)
-
+        # On initialise une table de hachage vide
         T : dict = {}
 
-        n = len(self.liste_adjacence.keys()) + 1
-
-        graphe_g_degen = Graphe(liste_adjacence_degenerescence)
-
-        for j in range(1, n):
-            cliques_maximales = graphe_g_degen.version_avec_ordonnancement()
+        # Génération des sous-graphes du graphe
+        operator_ss_graphes = self.generer_sous_graphes(list(liste_degenerescence), [], list(liste_degenerescence))
+        sous_graphes = []
+        ss_graphe_dict : dict = {}
+        for ss_graphe in operator_ss_graphes:
+            ss_graphe_dict.clear()
+            for sommet in ss_graphe:
+                voisins = list(filter(lambda x: x in ss_graphe, self.get_voisin(sommet)))
+                ss_graphe_dict[sommet]=voisins
+            sous_graphes.append(Graphe(ss_graphe_dict))
+                
+        n = len(sous_graphes)
+        
+        for j in range(0, n):
+            SG = sous_graphes[j]
+            cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
                 liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k),
                                                        key=liste_degenerescence.index)
                 if liste_degenerescence_clique_k not in T.values():
                     T[j] = liste_degenerescence_clique_k
-                
+               
         return T
-
+    
+    # Cette fonction permet de générer tous les sous-graphes d'un graphe
+    def generer_sous_graphes(self, sommets_pas_traites, sous_graphes_actu, voisins):
+       if not sous_graphes_actu:
+           candidats = sommets_pas_traites
+       else:
+           candidats = list(set(sommets_pas_traites) & set(voisins))
+       if not candidats:
+           yield sous_graphes_actu
+       else:
+           v = random.choice(candidats)
+           sommets_pas_traites.remove(v)
+           yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
+           sous_graphes_actu.append(v)
+           voisins.append(v)
+           yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
+                    
     ################################################ PARTIE 3.2 ##################################################
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
