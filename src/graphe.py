@@ -130,7 +130,7 @@ class Graphe:
 
     ################################################ PARTIE 2.1 ##################################################
     # Algorithme de Bron Kerbosch Version Standard
-    # P: ensemble des sommets candidats pour être ajoutes a la potentielle clique
+    # P: ensemble des sommets sommets_candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
     # X: contient des sommets deja traites ou appartenant deja a une clique maximale
 
@@ -282,17 +282,17 @@ class Graphe:
     # Cette fonction permet de générer tous les sous-graphes d'un graphe
     def generer_sous_graphes(self, sommets_pas_traites, sous_graphes_actu, voisins):
        if not sous_graphes_actu:
-           candidats = sommets_pas_traites
+           sommets_candidats = sommets_pas_traites
        else:
-           candidats = list(set(sommets_pas_traites) & set(voisins))
-       if not candidats:
+           sommets_candidats = list(set(sommets_pas_traites) & set(voisins))
+       if not sommets_candidats:
            yield sous_graphes_actu
        else:
-           v = random.choice(candidats)
+           v = random.choice(sommets_candidats)
            sommets_pas_traites.remove(v)
            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
            sous_graphes_actu.append(v)
-           voisins.append(v)
+           voisins.extend(self.get_voisin(v))
            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
                     
     ################################################ PARTIE 3.2 ##################################################

@@ -35,7 +35,7 @@ if __name__ == '__main__':
     
     print("\n****************** ENUMERATION CLIQUES MAXIMALES V2 *****************")
     print(list(graphe.enumeration_cliques_max_2()))
-
+    
     # Dessiner des graphes
     graphe.dessiner_graphe()
  
