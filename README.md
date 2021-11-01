@@ -8,8 +8,6 @@
 
 ISTY | IATIC 4 | 2021-2022
 
-## Lien de la présentation vidéo
-
 
 ## Commandes
 
