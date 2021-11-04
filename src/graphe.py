@@ -82,15 +82,18 @@ class Graphe:
     def graphe_aleatoire(self, nombre_sommet):
         liste_adjacence = {}
 
+        #Initialisation de la liste d'adjascence
         liste_adjacence = self.initialiser_liste_adjacence(nombre_sommet)
 
         for sommet in liste_adjacence.keys():
 
+            #Mise à jour de la liste d'adjascence pour obtenir les mêmes sommets dans la liste d'adjacence du sommet voisin et la liste d'adjascence du sommet en cours
             if sommet > 1:
                 for voisin_possible in liste_adjacence.keys():
                     if sommet in liste_adjacence[voisin_possible]:
                         liste_adjacence[sommet].append(voisin_possible)
 
+            #L'ajout aléatoire d'une arête dans le graphe
             for sommet_voisin in range(sommet + 1, len(liste_adjacence) + 1):
                 if sommet_voisin not in liste_adjacence[sommet]:
                     probabilite = random.gauss(0, 2)
@@ -111,12 +114,15 @@ class Graphe:
         liste_adjacence = defaultdict(list, {1: [2, 3], 2: [1, 3], 3: [1, 2]})
 
         for i in range(3, 3 + m):
+            #Calcul de la somme des degrées
             somme_degrees = self.get_somme_degrees(liste_adjacence)
 
+            #Récuperation des noeuds
             noeuds = set(liste_adjacence.keys()) - {i} - set(liste_adjacence[i])
 
+            #Ajout des arretes aleatoirement
             for noeud in noeuds:
-                degree = len(liste_adjacence[noeud])
+                degree = len(liste_adjacence[noeud]) # degree : degree du noeud en cours
                 probabilite = degree / somme_degrees
                 if random.random() < probabilite:
                     liste_adjacence[i].append(noeud)
@@ -194,12 +200,12 @@ class Graphe:
     # Cet algorithme retourne un int contenant la dégénérescence et la liste
     # de sommets dans un ordre optimal pour la coloration de graphe
     # (commençant par le sommet ayant le plus haut degré)
-    def get_degenerescence_graphe(self): 
+    def get_degenerescence_graphe(self):
         # Initialisation d'une liste L qui sera retournée
         L = []
-        
-        # Initialisation d'une liste D qui contiendra dans chacune 
-        # de ses cases, les sommets ayant un degré correspondant 
+
+        # Initialisation d'une liste D qui contiendra dans chacune
+        # de ses cases, les sommets ayant un degré correspondant
         # à l'indice de la case
         D = []
 
@@ -228,11 +234,11 @@ class Graphe:
                     # On supprime le sommet v de D
                     D[i].remove(v)
                     voisins_v = self.get_voisin(v)
-                    # On parcourt tous les voisins de v 
+                    # On parcourt tous les voisins de v
                     for w in voisins_v:
                         if w not in L:
-                            # On cherche à retirer un degré à w et à le déplacer 
-                            # à l'indice correspondant dans D 
+                            # On cherche à retirer un degré à w et à le déplacer
+                            # à l'indice correspondant dans D
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
@@ -264,21 +270,21 @@ class Graphe:
                 voisins = list(filter(lambda x: x in ss_graphe, self.get_voisin(sommet)))
                 ss_graphe_dict[sommet]=voisins
             sous_graphes.append(Graphe(ss_graphe_dict))
-                
+
         n = len(sous_graphes)
-        
+
         for j in range(0, n):
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
-                # On trie les sommets de la clique en respectant l'ordre de dégénérescence 
+                # On trie les sommets de la clique en respectant l'ordre de dégénérescence
                 liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k),
                                                        key=liste_degenerescence.index)
                 if liste_degenerescence_clique_k not in T.values():
                     T[j] = liste_degenerescence_clique_k
-               
+
         return T
-    
+
     # Cette fonction permet de générer tous les sous-graphes d'un graphe
     def generer_sous_graphes(self, sommets_pas_traites, sous_graphes_actu, voisins):
        if not sous_graphes_actu:
@@ -294,7 +300,7 @@ class Graphe:
            sous_graphes_actu.append(v)
            voisins.extend(self.get_voisin(v))
            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
-                    
+
     ################################################ PARTIE 3.2 ##################################################
    # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
@@ -325,7 +331,7 @@ class Graphe:
                     if (len(self.get_voisin(sommet)) < k) and (sommet in clique_k):
                         print("reject")
                     else:
-                        #renvoyer les cliques maximale 
+                        #renvoyer les cliques maximale
                         yield from clique_maximales
 
 
