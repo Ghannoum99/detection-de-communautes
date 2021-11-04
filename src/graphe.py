@@ -20,6 +20,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
+
 class Graphe:
 
     def __init__(self, liste_adjacence: dict = {}):
@@ -81,18 +82,18 @@ class Graphe:
     def graphe_aleatoire(self, nombre_sommet):
         liste_adjacence = {}
 
-        #Initialisation de la liste d'adjascence
+        # Initialisation de la liste d'adjascence
         liste_adjacence = self.initialiser_liste_adjacence(nombre_sommet)
 
         for sommet in liste_adjacence.keys():
 
-            #Mise à jour de la liste d'adjascence pour obtenir les mêmes sommets dans la liste d'adjacence du sommet voisin et la liste d'adjascence du sommet en cours
+            # Mise à jour de la liste d'adjascence pour obtenir les mêmes sommets dans la liste d'adjacence du sommet voisin et la liste d'adjascence du sommet en cours
             if sommet > 1:
                 for voisin_possible in liste_adjacence.keys():
                     if sommet in liste_adjacence[voisin_possible]:
                         liste_adjacence[sommet].append(voisin_possible)
 
-            #L'ajout aléatoire d'une arête dans le graphe
+            # L'ajout aléatoire d'une arête dans le graphe
             for sommet_voisin in range(sommet + 1, len(liste_adjacence) + 1):
                 if sommet_voisin not in liste_adjacence[sommet]:
                     probabilite = random.gauss(0, 2)
@@ -113,21 +114,22 @@ class Graphe:
         liste_adjacence = defaultdict(list, {1: [2, 3], 2: [1, 3], 3: [1, 2]})
 
         for i in range(3, 3 + m):
-            #Calcul de la somme des degrées
+            # Calcul de la somme des degrées
             somme_degrees = self.get_somme_degrees(liste_adjacence)
 
-            #Récuperation des noeuds
+            # Récuperation des noeuds
             noeuds = set(liste_adjacence.keys()) - {i} - set(liste_adjacence[i])
 
-            #Ajout des arretes aleatoirement
+            # Ajout des arretes aleatoirement
             for noeud in noeuds:
-                degree = len(liste_adjacence[noeud]) # degree : degree du noeud en cours
+                degree = len(liste_adjacence[noeud])  # degree : degree du noeud en cours
                 probabilite = degree / somme_degrees
                 if random.random() < probabilite:
                     liste_adjacence[i].append(noeud)
                     liste_adjacence[noeud].append(i)
 
         return Graphe(liste_adjacence)
+
 
     ##############################################################################################################
     ############################################# DEUXIEME PARTIE ################################################
@@ -166,7 +168,7 @@ class Graphe:
         if len(P) == 0 and len(X) == 0:
             yield R
         else:
-            pivot = self.choisir_aleatoirement(set(P)) or self.choisir_aleatoirement(set(X))
+            pivot = self.pivot_tomita(P, X)
 
             for sommet in list(set(P).difference(self.get_voisin(pivot))):
                 yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
@@ -175,12 +177,31 @@ class Graphe:
                 P.remove(sommet)
                 X.append(sommet)
 
-    # Choisir un element aléatoire du "Set": ensemble
-    def choisir_aleatoirement(self, ensemble):
-        if len(ensemble) != 0:
-            pivot = ensemble.pop()
-            ensemble.add(pivot)
-            return pivot
+    # choisir un pivot pour minimiser le nombre d'appel récursif
+    # cet algorithme consiste à prendre u tel que |P inter N(u)| soit maximal
+    # N(u) : les voisins du sommet u.
+    def pivot_tomita(self, P, X):
+        # L'union de P et X
+        P_union_X = list(P + X)
+        # initialiser u comme le premier sommet de P inter X
+        u = P_union_X[0]
+
+        # L'intersection de P et N(u)
+        P_inter_voisin_de_u = list(set(P) & set(self.get_voisin(u)))
+        # initialiser le degree max à la taille de la liste ( P inter N(u) )
+        degree_max = len(P_inter_voisin_de_u)
+
+        # L'union de P et X privée du sommet U
+        # (P union X)\{u}
+        P_union_X_privee_de_u = P_union_X
+
+        for v in P_union_X_privee_de_u:
+            # L'intersection de P et N(v)
+            P_inter_voisin_de_v = list(set(P) & set(self.get_voisin(v)))
+            if len(P_inter_voisin_de_v) > degree_max:
+                u = v
+                degree_max = len(P_inter_voisin_de_v)
+        return u
 
     # Version avec ordonnancement des noeuds
     def version_avec_ordonnancement(self):
@@ -199,12 +220,12 @@ class Graphe:
     # Cet algorithme retourne un int contenant la dégénérescence et la liste
     # de sommets dans un ordre optimal pour la coloration de graphe
     # (commençant par le sommet ayant le plus haut degré)
-    def get_degenerescence_graphe(self):
+    def get_degenerescence_graphe(self): 
         # Initialisation d'une liste L qui sera retournée
         L = []
-
-        # Initialisation d'une liste D qui contiendra dans chacune
-        # de ses cases, les sommets ayant un degré correspondant
+        
+        # Initialisation d'une liste D qui contiendra dans chacune 
+        # de ses cases, les sommets ayant un degré correspondant 
         # à l'indice de la case
         D = []
 
@@ -233,11 +254,11 @@ class Graphe:
                     # On supprime le sommet v de D
                     D[i].remove(v)
                     voisins_v = self.get_voisin(v)
-                    # On parcourt tous les voisins de v
+                    # On parcourt tous les voisins de v 
                     for w in voisins_v:
                         if w not in L:
-                            # On cherche à retirer un degré à w et à le déplacer
-                            # à l'indice correspondant dans D
+                            # On cherche à retirer un degré à w et à le déplacer 
+                            # à l'indice correspondant dans D 
                             iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
@@ -269,19 +290,19 @@ class Graphe:
                 voisins = list(filter(lambda x: x in ss_graphe, self.get_voisin(sommet)))
                 ss_graphe_dict[sommet]=voisins
             sous_graphes.append(Graphe(ss_graphe_dict))
-
+                
         n = len(sous_graphes)
-
+        
         for j in range(0, n):
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
-                # On trie les sommets de la clique en respectant l'ordre de dégénérescence
+                # On trie les sommets de la clique en respectant l'ordre de dégénérescence 
                 liste_degenerescence_clique_k = sorted(set(liste_degenerescence) & set(clique_k),
                                                        key=liste_degenerescence.index)
                 if liste_degenerescence_clique_k not in T.values():
                     T[j] = liste_degenerescence_clique_k
-
+               
         return T
 
     # Cette fonction permet de générer tous les sous-graphes d'un graphe
@@ -299,18 +320,18 @@ class Graphe:
            sous_graphes_actu.append(v)
            voisins.extend(self.get_voisin(v))
            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
-
+                    
     ################################################ PARTIE 3.2 ##################################################
-   # Algorithme d'énumération des cliques maximales 3.2
+    # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
-        #récupere le dégres maximale dans le graphe
+        # récupere le dégres maximale dans le graphe
         k = max(map(lambda x: len(x), self.liste_adjacence.values()))
         # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
 
         # On initialise une table de hachage vide
         liste_adjacence_degenerescence: dict = {}
-        #lister les voisins de chaque sommets
+        # lister les voisins de chaque sommets
         for sommet in liste_degenerescence:
             liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
 
@@ -321,16 +342,16 @@ class Graphe:
         for j in range(1, n):
             # On trie les clique selon leur ordre
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
-            #on va parcourir  tout les clique
+            # on va parcourir  tout les clique
             for clique_k in clique_maximales:
-                #On va parcourir tout les sommets dans le clique
+                # On va parcourir tout les sommets dans le clique
                 for sommet in clique_k:
-                    #tester si le voisin de sommet posséde le plus petit ordre et
+                    # tester si le voisin de sommet posséde le plus petit ordre et
                     # que la sommet appartient au clique
                     if (len(self.get_voisin(sommet)) < k) and (sommet in clique_k):
                         print("reject")
                     else:
-                        #renvoyer les cliques maximale
+                        # renvoyer les cliques maximale
                         yield from clique_maximales
 
 
