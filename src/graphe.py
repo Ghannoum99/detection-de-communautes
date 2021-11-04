@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """
-
 Sujet : Détéction des communautes dans des réseaux sociaux
 
 Auteurs : GHANNOUM Jihad - KHIARI Slim - NOUIRA Nessrine - TOIHIR Yoa
-
-
 
 1. Expliquer ce qu'on a fait dans la classe Graphe (les attributs et les méthodes)
 2. Ajouter des commentaires
 3. Expliquer le rôle de chaque variable
 4. Ajouter les références (les 2 articles)
 
-
 """
+
 from collections import defaultdict
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -95,11 +92,17 @@ class Graphe:
     def get_voisin(self, sommet):
         return self.liste_adjacence[sommet]
 
-    ##############################################################################################################
-    ############################### PREMIERE PARTIE : GENERER DES GRAPHES ALEATOIRES #############################
-    ##############################################################################################################
 
-    ################################################ PARTIE 1.1 ##################################################
+    """
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %
+    %   PREMIERE PARTIE : GENERER DES GRAPHES ALEATOIRES
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    """
+
+    # Partie 1.1
+
     # Algorithme pour générer un graphe aléatoire
     def graphe_aleatoire(self, nombre_sommet):
         liste_adjacence = {}
@@ -127,7 +130,8 @@ class Graphe:
 
         return Graphe(liste_adjacence)
 
-    ########################## PARTIE 1.2 : GENERER LES GRAPHES DE Barabasi-Albert #############################
+    # Partie 1.2
+
     # Algorithme pour générer un graphe aléatoire avec le modéle Barabasi-Albert
     def graphe_barabasi_albert(self, m):
         if m <= 0:
@@ -153,11 +157,17 @@ class Graphe:
 
         return Graphe(liste_adjacence)
 
-    ##############################################################################################################
-    ############################################# DEUXIEME PARTIE ################################################
-    ##############################################################################################################
 
-    ################################################ PARTIE 2.1 ##################################################
+    """
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %
+    %   DEUXIEME PARTIE : Algorithmes de Bron-Kerbosch
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    """
+
+    # Partie 2.1
+
     # Algorithme de Bron Kerbosch Version Standard
     # P: ensemble des sommets sommets_candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
@@ -179,7 +189,8 @@ class Graphe:
                 P.remove(sommet)
                 X.append(sommet)
 
-    ################################################ PARTIE 2.2 ##################################################
+    # Partie 2.2
+
     # Algorithme de Bron Kerbosch avec pivot
     def bron_kerbosch_avec_pivot(self, P, R=None, X=None):
         P = list(P)
@@ -295,11 +306,17 @@ class Graphe:
 
         return L
 
-    ##############################################################################################################
-    ############################################# TROISIEME PARTIE ###############################################
-    ##############################################################################################################
 
-    ################################################ PARTIE 3.1 ##################################################
+    """
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %
+    %   TROISIEME PARTIE : Algorithmes d’énumération des cliques en fonction de la dégénérescence
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    """
+
+    # Partie 3.1
+
     # Algorithme d'énumération des cliques maximales
     def enumeration_cliques_max(self):
         # Calcul de l'ordre de dégénérescence du graphe
@@ -348,8 +365,9 @@ class Graphe:
            sous_graphes_actu.append(v)
            voisins.extend(self.get_voisin(v))
            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
-                    
-    ################################################ PARTIE 3.2 ##################################################
+
+    # Partie 3.2
+
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
         # récupere le dégres maximale dans le graphe
