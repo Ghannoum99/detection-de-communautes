@@ -131,7 +131,6 @@ class Graphe:
 
         return Graphe(liste_adjacence)
 
-
     ##############################################################################################################
     ############################################# DEUXIEME PARTIE ################################################
     ##############################################################################################################
@@ -141,7 +140,6 @@ class Graphe:
     # P: ensemble des sommets sommets_candidats pour être ajoutes a la potentielle clique
     # R: un sous ensemble des sommets de la potentielle clique
     # X: contient des sommets deja traites ou appartenant deja a une clique maximale
-
     def bron_kerbosch_sans_pivot(self, P, R=None, X=None):
         P = list(P)
         R = list() if R is None else R
@@ -182,6 +180,9 @@ class Graphe:
     # cet algorithme consiste à prendre u tel que |P inter N(u)| soit maximal
     # N(u) : les voisins du sommet u.
     def pivot_tomita(self, P, X):
+        P = list(P)
+        X = list() if X is None else X
+
         # L'union de P et X
         P_union_X = list(P + X)
         # initialiser u comme le premier sommet de P inter X
