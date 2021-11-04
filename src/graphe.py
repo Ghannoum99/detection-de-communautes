@@ -87,7 +87,8 @@ class Graphe:
 
         for sommet in liste_adjacence.keys():
 
-            # Mise à jour de la liste d'adjascence pour obtenir les mêmes sommets dans la liste d'adjacence du sommet voisin et la liste d'adjascence du sommet en cours
+            # Mise à jour de la liste d'adjascence pour obtenir les mêmes
+            # sommets dans la liste d'adjacence du sommet voisin et la liste d'adjascence du sommet en cours
             if sommet > 1:
                 for voisin_possible in liste_adjacence.keys():
                     if sommet in liste_adjacence[voisin_possible]:
