@@ -296,12 +296,16 @@ class Graphe:
            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
                     
     ################################################ PARTIE 3.2 ##################################################
-    # Algorithme d'énumération des cliques maximales 3.2
+   # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
+        #récupere le dégres maximale dans le graphe
         k = max(map(lambda x: len(x), self.liste_adjacence.values()))
+        # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
 
+        # On initialise une table de hachage vide
         liste_adjacence_degenerescence: dict = {}
+        #lister les voisins de chaque sommets
         for sommet in liste_degenerescence:
             liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
 
@@ -310,11 +314,18 @@ class Graphe:
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
         for j in range(1, n):
+            # On trie les clique selon leur ordre
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
+            #on va parcourir  tout les clique
             for clique_k in clique_maximales:
+                #On va parcourir tout les sommets dans le clique
                 for sommet in clique_k:
+                    #tester si le voisin de sommet posséde le plus petit ordre et
+                    # que la sommet appartient au clique
                     if (len(self.get_voisin(sommet)) < k) and (sommet in clique_k):
                         print("reject")
                     else:
+                        #renvoyer les cliques maximale 
                         yield from clique_maximales
+
 
