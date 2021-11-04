@@ -77,8 +77,7 @@ class Graphe:
     ##############################################################################################################
 
     ################################################ PARTIE 1.1 ##################################################
-    # EXPLICATION
-
+    # Algorithme pour générer un graphe aléatoire
     def graphe_aleatoire(self, nombre_sommet):
         liste_adjacence = {}
 
@@ -105,7 +104,7 @@ class Graphe:
         return Graphe(liste_adjacence)
 
     ########################## PARTIE 1.2 : GENERER LES GRAPHES DE Barabasi-Albert #############################
-    # EXPLICATION
+    # Algorithme pour générer un graphe aléatoire avec le modéle Barabasi-Albert
     def graphe_barabasi_albert(self, m):
         if m <= 0:
             return Graphe()
