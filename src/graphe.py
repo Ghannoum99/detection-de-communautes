@@ -26,9 +26,11 @@ class Graphe:
     def __init__(self, liste_adjacence: dict = {}):
         self.liste_adjacence = liste_adjacence
 
+    # Fonction permettant de calculer le nombre de sommets d'un graphe
     def get_nombre_sommet(self):
         return len(self.liste_adjacence.keys())
 
+    # Fonction permettant de calculer le nombre d'aretes dans un graphe
     def get_nombre_aretes(self):
         aretes = 0
         for sommet in self.liste_adjacence.values():
@@ -36,6 +38,8 @@ class Graphe:
 
         return aretes / 2
 
+    # Fonction permettant de calculer le degré d'un graphe représenté par sa liste d'adjacence
+    # ( somme de degrées de chaque sommet du graphe)
     def get_somme_degrees(self, liste_adjacence):
         somme_degrees = 0
         for sommet in liste_adjacence.values():
@@ -43,6 +47,11 @@ class Graphe:
 
         return somme_degrees
 
+    # Fonction permettant d'initialiser la liste d'adjacence
+    # Entrée : le nombre de sommet (n)
+    # Cette fonction permet de créer une liste d'adjacence de n sommets
+    # En premier temps chaque sommet est de degré 0
+    # Elle sera utilisée dans la fonction de génération des graphes aléatoires
     def initialiser_liste_adjacence(self, nombre_sommet):
         liste_adjacence = {}
         for sommet in range(1, nombre_sommet + 1):
@@ -50,26 +59,39 @@ class Graphe:
 
         return liste_adjacence
 
+    # Fonction permettant d'afficher un graphe
+    # représenté par sa liste d'adjacence
     def afficher_graphe(self):
         for sommet, voisin in self.liste_adjacence.items():
             print("L(" + str(sommet) + ") = " + str(self.liste_adjacence[sommet]))
 
+    # Fonction permettant de dessiner un graphe
     def dessiner_graphe(self):
+        # creation d'un graphe G vide
         G = nx.DiGraph()
 
         for sommet in self.liste_adjacence.keys():
-
+            # ajouter le sommet en cours au graphe G
             G.add_node(sommet)
-            for voisins in range(0, len(self.liste_adjacence[sommet])):
-                G.add_edge(sommet, self.liste_adjacence[sommet][voisins])
 
+            # parcourir la liste de voisins du sommet en cours
+            for voisin in range(0, len(self.liste_adjacence[sommet])):
+                # ajouter une arete (sommet,voisin)
+                G.add_edge(sommet, self.liste_adjacence[sommet][voisin])
+
+        # Positionner les nœuds en utilisant l'algorithme Fruchterman-Reingold force-directed.
         pos = nx.spring_layout(G)
 
+        # dessiner les noeuds du graphe G
         nx.draw_networkx_nodes(G, pos)
+        # dessiner les étiquettes des nœuds sur le graphe G.
         nx.draw_networkx_labels(G, pos)
+        #dessiner les aretes du graphe G
         nx.draw_networkx_edges(G, pos, edge_color='r', arrows=False)
+        # afficher le graphe
         plt.show()
 
+    # Fonction permettant d'avoir la liste de voisins d'un sommet donné
     def get_voisin(self, sommet):
         return self.liste_adjacence[sommet]
 
@@ -145,6 +167,7 @@ class Graphe:
         R = list() if R is None else R
         X = list() if X is None else X
 
+        # if P union X = 0 --> reporter R comme clique maximale
         if len(P) == 0 and len(X) == 0:
             yield R
 
@@ -157,18 +180,21 @@ class Graphe:
                 X.append(sommet)
 
     ################################################ PARTIE 2.2 ##################################################
-    # Algorithme de Bron Kerbosch version améliorée
     # Algorithme de Bron Kerbosch avec pivot
     def bron_kerbosch_avec_pivot(self, P, R=None, X=None):
         P = list(P)
         R = list() if R is None else R
         X = list() if X is None else X
 
+        # if P union X = 0 --> reporter R comme clique maximale
         if len(P) == 0 and len(X) == 0:
             yield R
         else:
+            # choisir un pivot
             pivot = self.pivot_tomita(P, X)
 
+            # parcourir la liste P privéé N(pivot)
+            # avec N(pivot) : la liste des voisins du sommet pivot
             for sommet in list(set(P).difference(self.get_voisin(pivot))):
                 yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
                                                          list(set(X) & set(self.get_voisin(sommet))))
