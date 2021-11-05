@@ -83,7 +83,7 @@ class Graphe:
         nx.draw_networkx_nodes(G, pos)
         # dessiner les étiquettes des nœuds sur le graphe G.
         nx.draw_networkx_labels(G, pos)
-        #dessiner les aretes du graphe G
+        # dessiner les aretes du graphe G
         nx.draw_networkx_edges(G, pos, edge_color='r', arrows=False)
         # afficher le graphe
         plt.show()
@@ -91,7 +91,6 @@ class Graphe:
     # Fonction permettant d'avoir la liste de voisins d'un sommet donné
     def get_voisin(self, sommet):
         return self.liste_adjacence[sommet]
-
 
     """
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,7 +155,6 @@ class Graphe:
                     liste_adjacence[noeud].append(i)
 
         return Graphe(liste_adjacence)
-
 
     """
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -259,10 +257,10 @@ class Graphe:
     # Cet algorithme retourne un int contenant la dégénérescence et la liste
     # de sommets dans un ordre optimal pour la coloration de graphe
     # (commençant par le sommet ayant le plus haut degré)
-    def get_degenerescence_graphe(self): 
+    def get_degenerescence_graphe(self):
         # Initialisation d'une liste L qui sera retournée
         L = []
-        
+
         # Initialisation d'une liste D qui contiendra dans chacune 
         # de ses cases, les sommets ayant un degré correspondant 
         # à l'indice de la case
@@ -306,7 +304,6 @@ class Graphe:
 
         return L
 
-
     """
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %
@@ -323,21 +320,21 @@ class Graphe:
         liste_degenerescence = self.get_degenerescence_graphe()
 
         # On initialise une table de hachage vide
-        T : dict = {}
+        T: dict = {}
 
         # Génération des sous-graphes du graphe
         operator_ss_graphes = self.generer_sous_graphes(list(liste_degenerescence), [], list(liste_degenerescence))
         sous_graphes = []
-        ss_graphe_dict : dict = {}
+        ss_graphe_dict: dict = {}
         for ss_graphe in operator_ss_graphes:
             ss_graphe_dict.clear()
             for sommet in ss_graphe:
                 voisins = list(filter(lambda x: x in ss_graphe, self.get_voisin(sommet)))
-                ss_graphe_dict[sommet]=voisins
+                ss_graphe_dict[sommet] = voisins
             sous_graphes.append(Graphe(ss_graphe_dict))
-                
+
         n = len(sous_graphes)
-        
+
         for j in range(0, n):
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
@@ -347,24 +344,24 @@ class Graphe:
                                                        key=liste_degenerescence.index)
                 if liste_degenerescence_clique_k not in T.values():
                     T[j] = liste_degenerescence_clique_k
-               
+
         return T
 
     # Cette fonction permet de générer tous les sous-graphes d'un graphe
     def generer_sous_graphes(self, sommets_pas_traites, sous_graphes_actu, voisins):
-       if not sous_graphes_actu:
-           sommets_candidats = sommets_pas_traites
-       else:
-           sommets_candidats = list(set(sommets_pas_traites) & set(voisins))
-       if not sommets_candidats:
-           yield sous_graphes_actu
-       else:
-           v = random.choice(sommets_candidats)
-           sommets_pas_traites.remove(v)
-           yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
-           sous_graphes_actu.append(v)
-           voisins.extend(self.get_voisin(v))
-           yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
+        if not sous_graphes_actu:
+            sommets_candidats = sommets_pas_traites
+        else:
+            sommets_candidats = list(set(sommets_pas_traites) & set(voisins))
+        if not sommets_candidats:
+            yield sous_graphes_actu
+        else:
+            v = random.choice(sommets_candidats)
+            sommets_pas_traites.remove(v)
+            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
+            sous_graphes_actu.append(v)
+            voisins.extend(self.get_voisin(v))
+            yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
 
     # Partie 3.2
 
@@ -399,5 +396,3 @@ class Graphe:
                     else:
                         # renvoyer les cliques maximale
                         yield from clique_maximales
-
-
