@@ -201,7 +201,7 @@ class Graphe:
         if len(P) == 0 and len(X) == 0:
             yield R
         else:
-            # choisir un pivot
+            # choisir un pivot de Tomita
             pivot = self.pivot_tomita(P, X)
 
             # parcourir la liste P privéé N(pivot)
@@ -230,11 +230,11 @@ class Graphe:
         # initialiser le degree max à la taille de la liste ( P inter N(u) )
         degree_max = len(P_inter_voisin_de_u)
 
-        # L'union de P et X privée du sommet U
-        # (P union X)\{u}
-        P_union_X_privee_de_u = P_union_X
+        # P privée de N(u)
+        # P\N(u)
+        P_privee_de_voisins_de_u = list(set(P) - set(self.get_voisin(u)))
 
-        for v in P_union_X_privee_de_u:
+        for v in P_privee_de_voisins_de_u:
             # L'intersection de P et N(v)
             P_inter_voisin_de_v = list(set(P) & set(self.get_voisin(v)))
             if len(P_inter_voisin_de_v) > degree_max:
