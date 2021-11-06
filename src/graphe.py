@@ -229,11 +229,11 @@ class Graphe:
         # initialiser le degree max à la taille de la liste ( P inter N(u) )
         degree_max = len(P_inter_voisin_de_u)
 
-        # P Union X privée de N(u)
-        # P union X \ N(u)
-        P_privee_de_voisins_de_u = list(set(P + X) - set(self.get_voisin(u)))
+        # P Union X privée de u
+        # P union X \ {u}
+        P_privee_de_u = list(set(P + X) - {u})
 
-        for v in P_privee_de_voisins_de_u:
+        for v in P_privee_de_u:
             # L'intersection de P et N(v)
             P_inter_voisin_de_v = list(set(P) & set(self.get_voisin(v)))
             if len(P_inter_voisin_de_v) > degree_max:
