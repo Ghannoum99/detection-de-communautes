@@ -367,7 +367,7 @@ class Graphe:
 
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
-        # récupere le dégres maximale dans le graphe
+        # récupere le dégres maximum dans le graphe
         k = max(map(lambda x: len(x), self.liste_adjacence.values()))
         # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
@@ -383,9 +383,9 @@ class Graphe:
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
         for j in range(1, n):
-            # On trie les clique selon leur ordre
+             #calculer tout les cliques maximale de graphe
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
-            # on va parcourir  tout les clique
+            # on va parcourir  tout les cliques dans clique maximale
             for clique_k in clique_maximales:
                 # On va parcourir tout les sommets dans le clique
                 for sommet in clique_k:
