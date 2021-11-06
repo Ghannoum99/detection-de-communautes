@@ -10,7 +10,7 @@ if __name__ == '__main__':
     graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
     graphe.afficher_graphe()
 
-    print("\n*************************** SANS PIVOT ***************************")
+    print("\n%%%%%%%%%%%%%%%%%%%%%%% SANS PIVOT %%%%%%%%%%%%%%%%%%%%%%%")
     print(list(graphe.bron_kerbosch_sans_pivot(list(graphe.liste_adjacence.keys()), R, X)))
 
     print("\n%%%%%%%%%%%%%%%%%%%%%%%  AVEC PIVOT %%%%%%%%%%%%%%%%%%%%%%%")
