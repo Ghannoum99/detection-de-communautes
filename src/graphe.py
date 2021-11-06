@@ -216,9 +216,6 @@ class Graphe:
     # cet algorithme consiste à prendre u tel que |P inter N(u)| soit maximal
     # N(u) : les voisins du sommet u.
     def pivot_tomita(self, P, X):
-        P = list(P)
-        X = list() if X is None else X
-
         # L'union de P et X
         P_union_X = list(P + X)
         # initialiser u comme le premier sommet de P inter X
