@@ -37,12 +37,12 @@ class Graphe:
 
     # Fonction permettant de calculer le degré d'un graphe représenté par sa liste d'adjacence
     # ( somme de degrées de chaque sommet du graphe)
-    def get_somme_degrees(self, liste_adjacence):
-        somme_degrees = 0
+    def get_somme_degres(self, liste_adjacence):
+        somme_degres = 0
         for sommet in liste_adjacence.values():
-            somme_degrees += sum([len(sommet)])
+            somme_degres += sum([len(sommet)])
 
-        return somme_degrees
+        return somme_degres
 
     # Fonction permettant d'initialiser la liste d'adjacence
     # Entrée : le nombre de sommet (n)
@@ -141,7 +141,7 @@ class Graphe:
 
         for i in range(3, 3 + m):
             # Calcul de la somme des degrées
-            somme_degrees = self.get_somme_degrees(liste_adjacence)
+            somme_degres = self.get_somme_degres(liste_adjacence)
 
             # Récuperation des noeuds
             noeuds = set(liste_adjacence.keys()) - {i} - set(liste_adjacence[i])
@@ -149,7 +149,7 @@ class Graphe:
 
             for noeud in noeuds:
                 degree = len(liste_adjacence[noeud])  # degree : degree du noeud en cours
-                probabilite = degree / somme_degrees
+                probabilite = degree / somme_degres
                 # si la valeur aléatoire < probabilité, on va ajouter ce noeud
                 if random.random() < probabilite:
                     liste_adjacence[i].append(noeud)
@@ -223,8 +223,8 @@ class Graphe:
 
         # L'intersection de P et N(u)
         P_inter_voisin_de_u = list(set(P) & set(self.get_voisin(u)))
-        # initialiser le degree max à la taille de la liste ( P inter N(u) )
-        degree_max = len(P_inter_voisin_de_u)
+        # initialiser le degre max à la taille de la liste ( P inter N(u) )
+        degre_max = len(P_inter_voisin_de_u)
 
         # P Union X privée de u
         # P union X \ {u}
@@ -233,9 +233,9 @@ class Graphe:
         for v in P_privee_de_u:
             # L'intersection de P et N(v)
             P_inter_voisin_de_v = list(set(P) & set(self.get_voisin(v)))
-            if len(P_inter_voisin_de_v) > degree_max:
+            if len(P_inter_voisin_de_v) > degre_max:
                 u = v
-                degree_max = len(P_inter_voisin_de_v)
+                degre_max = len(P_inter_voisin_de_v)
         return u
 
     # Version avec ordonnancement des noeuds

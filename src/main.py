@@ -2,7 +2,7 @@
 
 from graphe import Graphe
 
-NOMBRE_SOMMET = 20
+NOMBRE_SOMMET = 2
 
 if __name__ == '__main__':
     R = []
