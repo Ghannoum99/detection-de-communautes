@@ -146,10 +146,11 @@ class Graphe:
             # Récuperation des noeuds
             noeuds = set(liste_adjacence.keys()) - {i} - set(liste_adjacence[i])
 
-            # Ajout des arretes aleatoirement
+
             for noeud in noeuds:
                 degree = len(liste_adjacence[noeud])  # degree : degree du noeud en cours
                 probabilite = degree / somme_degrees
+                # si la valeur aléatoire < probabilité, on va ajouter ce noeud
                 if random.random() < probabilite:
                     liste_adjacence[i].append(noeud)
                     liste_adjacence[noeud].append(i)
@@ -167,9 +168,9 @@ class Graphe:
     # Partie 2.1
 
     # Algorithme de Bron Kerbosch Version Standard
-    # P: ensemble des sommets sommets_candidats pour être ajoutes a la potentielle clique
+    # P: ensemble des sommets
     # R: un sous ensemble des sommets de la potentielle clique
-    # X: contient des sommets deja traites ou appartenant deja a une clique maximale
+    # X: contient des sommets deja traites
     def bron_kerbosch_sans_pivot(self, P, R=None, X=None):
         P = list(P)
         R = list() if R is None else R
@@ -367,7 +368,7 @@ class Graphe:
 
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
-        # récupere le dégres maximum dans le graphe
+        # récupere le degré maximum dans le graphe
         k = max(map(lambda x: len(x), self.liste_adjacence.values()))
         # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
@@ -383,16 +384,16 @@ class Graphe:
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
         for j in range(1, n):
-             #calculer tout les cliques maximale de graphe
+            #calculer toutes les cliques maximales du graphe
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
             # on va parcourir  tout les cliques dans clique maximale
             for clique_k in clique_maximales:
-                # On va parcourir tout les sommets dans le clique
+                # On va parcourir tous les sommets dans la clique
                 for sommet in clique_k:
-                    # tester si le voisin de sommet posséde le plus petit ordre et
-                    # que la sommet appartient au clique
+                    # tester si le voisin de sommet possède le plus petit ordre et
+                    # que le sommet appartient à la clique
                     if (len(self.get_voisin(sommet)) < k) and (sommet in clique_k):
                         print("reject")
                     else:
-                        # renvoyer les cliques maximale
+                        # renvoyer les cliques maximales
                         yield from clique_maximales
