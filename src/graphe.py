@@ -206,7 +206,7 @@ class Graphe:
             # parcourir la liste P privéé N(pivot)
             # avec N(pivot) : la liste des voisins du sommet pivot
             for sommet in list(set(P).difference(self.get_voisin(pivot))):
-                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
+                yield from self.bron_kerbosch_avec_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
                                                          list(set(X) & set(self.get_voisin(sommet))))
 
                 P.remove(sommet)
