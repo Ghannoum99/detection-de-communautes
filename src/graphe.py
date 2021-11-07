@@ -228,7 +228,7 @@ class Graphe:
 
         # P Union X privée de u
         # P union X \ {u}
-        P_union_X_privee_de_u = list(set(P + X) - {u})
+        P_union_X_privee_de_u = list(set(P_union_X) - {u})
 
         for v in P_union_X_privee_de_u:
             # L'intersection de P et N(v)
