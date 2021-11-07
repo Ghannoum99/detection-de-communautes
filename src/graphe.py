@@ -196,7 +196,7 @@ class Graphe:
         R = list() if R is None else R
         X = list() if X is None else X
 
-        # if P union X = 0 --> reporter R comme clique maximale
+        # if P union X = 0 --> raporter R comme clique maximale
         if len(P) == 0 and len(X) == 0:
             yield R
         else:
