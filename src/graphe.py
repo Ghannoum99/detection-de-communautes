@@ -186,7 +186,7 @@ class Graphe:
         X = list() if X is None else X
 
         # if P union X = 0 --> reporter R comme clique maximale
-        if len(P) == 0 and len(X) == 0:
+        if len(P + X) == 0:
             yield R
 
         else:
@@ -206,7 +206,7 @@ class Graphe:
         X = list() if X is None else X
 
         # if P union X = 0 --> raporter R comme clique maximale
-        if len(P) == 0 and len(X) == 0:
+        if len(P + X) == 0:
             yield R
         else:
             # choisir un pivot de Tomita
