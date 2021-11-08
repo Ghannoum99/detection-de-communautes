@@ -354,13 +354,16 @@ class Graphe:
 
         return T
 
-    # Cette fonction permet de générer tous les sous-graphes d'un graphe
+    # Cette fonction permet de générer récursivement tous les sous-graphes d'un graphe
     def generer_sous_graphes(self, sommets_pas_traites, sous_graphes_actu, voisins):
+        # On cherche à récupérer une liste de sommets candidats
+        # qu'on va traiter pour décider les intégrer à notre liste de sous-graphes
         if not sous_graphes_actu:
             sommets_candidats = sommets_pas_traites
         else:
             sommets_candidats = list(set(sommets_pas_traites) & set(voisins))
         if not sommets_candidats:
+            # On retourne les sous-graphes lorsqu'il n'y a plus de sommets candidats
             yield sous_graphes_actu
         else:
             v = random.choice(sommets_candidats)
