@@ -1,21 +1,31 @@
 # -*- coding: utf-8 -*-
 
-"""
-Sujet : Détéction des communautes dans des réseaux sociaux
-
-Auteurs : GHANNOUM Jihad - KHIARI Slim - NOUIRA Nessrine - TOIHIR Yoa
-
-1. Expliquer ce qu'on a fait dans la classe Graphe (les attributs et les méthodes)
-2. Ajouter des commentaires
-3. Expliquer le rôle de chaque variable
-4. Ajouter les références (les 2 articles)
-
-"""
-
 from collections import defaultdict
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
+
+"""
+1. Expliquer ce qu'on a fait dans la classe Graphe (les attributs et les méthodes)
+2. Ajouter des commentaires
+3. Expliquer le rôle de chaque variable
+4. Ajouter les références (les 2 articles)
+"""
+
+"""
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%               Outils pour la conception d'algorithmes
+%
+%                   ISTY - IATIC 4 [2021 - 2022]
+%
+%   Sujet : Détection de communautes dans des réseaux sociaux
+%
+%   Auteurs: GHANNOUM Jihad - KHIARI Slim - NOUIRA Nessrine - TOIHIR Yoa
+%   
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+"""
 
 
 class Graphe:
@@ -145,7 +155,6 @@ class Graphe:
 
             # Récuperation des noeuds
             noeuds = set(liste_adjacence.keys()) - {i} - set(liste_adjacence[i])
-
 
             for noeud in noeuds:
                 degree = len(liste_adjacence[noeud])  # degree : degree du noeud en cours
@@ -381,7 +390,7 @@ class Graphe:
         graphe_g_degen = Graphe(liste_adjacence_degenerescence)
 
         for j in range(1, n):
-            #calculer toutes les cliques maximales du graphe
+            # calculer toutes les cliques maximales du graphe
             clique_maximales = graphe_g_degen.version_avec_ordonnancement()
             # on va parcourir  tout les cliques dans clique maximale
             for clique_k in clique_maximales:
