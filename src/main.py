@@ -5,8 +5,11 @@ from graphe import Graphe
 NOMBRE_SOMMET = 20
 
 if __name__ == '__main__':
-    R = []
-    X = []
+    # initialisation de 2 listes vides
+    R = list()
+    X = list()
+
+    # Creation d'un objet graphe
     graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
     graphe.afficher_graphe()
 
@@ -25,6 +28,6 @@ if __name__ == '__main__':
     print("\n%%%%%%%%%%%%%%%%%%%%%%%  ENUMERATION CLIQUES MAXIMALES V2 %%%%%%%%%%%%%%%%%%%%%%%")
     print(list(graphe.enumeration_cliques_max_2()))
     
-    # Dessiner des graphes
+    # Dessiner l'objet graphe
     graphe.dessiner_graphe()
  
