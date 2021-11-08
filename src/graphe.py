@@ -99,7 +99,7 @@ class Graphe:
         plt.show()
 
     # Fonction permettant d'avoir la liste de voisins d'un sommet donné
-    def get_voisin(self, sommet):
+    def get_voisins(self, sommet):
         return self.liste_adjacence[sommet]
 
     """
@@ -191,8 +191,8 @@ class Graphe:
 
         else:
             for sommet in P[:]:
-                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
-                                                         list(set(X) & set(self.get_voisin(sommet))))
+                yield from self.bron_kerbosch_sans_pivot(list(set(P) & set(self.get_voisins(sommet))), R + [sommet],
+                                                         list(set(X) & set(self.get_voisins(sommet))))
 
                 P.remove(sommet)
                 X.append(sommet)
@@ -214,9 +214,9 @@ class Graphe:
 
             # parcourir la liste P privéé N(pivot)
             # avec N(pivot) : la liste des voisins du sommet pivot
-            for sommet in list(set(P).difference(self.get_voisin(pivot))):
-                yield from self.bron_kerbosch_avec_pivot(list(set(P) & set(self.get_voisin(sommet))), R + [sommet],
-                                                         list(set(X) & set(self.get_voisin(sommet))))
+            for sommet in list(set(P).difference(self.get_voisins(pivot))):
+                yield from self.bron_kerbosch_avec_pivot(list(set(P) & set(self.get_voisins(sommet))), R + [sommet],
+                                                         list(set(X) & set(self.get_voisins(sommet))))
 
                 P.remove(sommet)
                 X.append(sommet)
@@ -231,7 +231,7 @@ class Graphe:
         u = P_union_X[0]
 
         # L'intersection de P et N(u)
-        P_inter_voisin_de_u = list(set(P) & set(self.get_voisin(u)))
+        P_inter_voisin_de_u = list(set(P) & set(self.get_voisins(u)))
         # initialiser le degre max à la taille de la liste ( P inter N(u) )
         degre_max = len(P_inter_voisin_de_u)
 
@@ -241,7 +241,7 @@ class Graphe:
 
         for v in P_union_X_privee_de_u:
             # L'intersection de P et N(v)
-            P_inter_voisin_de_v = list(set(P) & set(self.get_voisin(v)))
+            P_inter_voisin_de_v = list(set(P) & set(self.get_voisins(v)))
             if len(P_inter_voisin_de_v) > degre_max:
                 u = v
                 degre_max = len(P_inter_voisin_de_v)
@@ -254,8 +254,8 @@ class Graphe:
         liste_sommets_degenerescence = self.get_degenerescence_graphe()
 
         for sommet in liste_sommets_degenerescence:
-            yield from self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisin(sommet))), [sommet],
-                                                     list(set(X).intersection(self.get_voisin(sommet))))
+            yield from self.bron_kerbosch_avec_pivot(list(set(P).intersection(self.get_voisins(sommet))), [sommet],
+                                                     list(set(X).intersection(self.get_voisins(sommet))))
 
             P.remove(sommet)
             X.append(sommet)
@@ -297,13 +297,13 @@ class Graphe:
                     L.insert(0, v)
                     # On supprime le sommet v de D
                     D[i].remove(v)
-                    voisins_v = self.get_voisin(v)
+                    voisins_v = self.get_voisins(v)
                     # On parcourt tous les voisins de v 
                     for w in voisins_v:
                         if w not in L:
                             # On cherche à retirer un degré à w et à le déplacer 
                             # à l'indice correspondant dans D 
-                            iterateur = filter(lambda x: x not in L or x == v, self.get_voisin(w))
+                            iterateur = filter(lambda x: x not in L or x == v, self.get_voisins(w))
                             list_voisins = list(iterateur)
                             ind = len(list_voisins)
                             D[ind].remove(w)
@@ -336,7 +336,7 @@ class Graphe:
         for ss_graphe in operator_ss_graphes:
             ss_graphe_dict.clear()
             for sommet in ss_graphe:
-                voisins = list(filter(lambda x: x in ss_graphe, self.get_voisin(sommet)))
+                voisins = list(filter(lambda x: x in ss_graphe, self.get_voisins(sommet)))
                 ss_graphe_dict[sommet] = voisins
             sous_graphes.append(Graphe(ss_graphe_dict))
 
@@ -367,7 +367,7 @@ class Graphe:
             sommets_pas_traites.remove(v)
             yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
             sous_graphes_actu.append(v)
-            voisins.extend(self.get_voisin(v))
+            voisins.extend(self.get_voisins(v))
             yield from self.generer_sous_graphes(sommets_pas_traites, sous_graphes_actu, voisins)
 
     # Partie 3.2
@@ -383,7 +383,7 @@ class Graphe:
         liste_adjacence_degenerescence: dict = {}
         # lister les voisins de chaque sommets
         for sommet in liste_degenerescence:
-            liste_adjacence_degenerescence.update({sommet: self.get_voisin(sommet)})
+            liste_adjacence_degenerescence.update({sommet: self.get_voisins(sommet)})
 
         n = len(self.liste_adjacence.keys()) + 1
 
@@ -398,7 +398,7 @@ class Graphe:
                 for sommet in clique_k:
                     # tester si le voisin de sommet possède le plus petit ordre et
                     # que le sommet appartient à la clique
-                    if (len(self.get_voisin(sommet)) < k) and (sommet in clique_k):
+                    if (len(self.get_voisins(sommet)) < k) and (sommet in clique_k):
                         print("reject")
                     else:
                         # renvoyer les cliques maximales
