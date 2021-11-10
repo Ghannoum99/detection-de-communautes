@@ -2,7 +2,8 @@
 
 from graphe import Graphe
 
-NOMBRE_SOMMET = 20
+NOMBRE_SOMMET = 12
+m = 7
 
 if __name__ == '__main__':
     # initialisation de 2 listes vides
@@ -10,7 +11,12 @@ if __name__ == '__main__':
     X = list()
 
     # Creation d'un objet graphe
-    graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
+    # Générer un graphe aléatoire
+    #graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
+
+    # Générer un graphe selon le modele de Barabasi
+    graphe = Graphe().graphe_barabasi_albert(m)
+
     graphe.afficher_graphe()
 
     print("\n%%%%%%%%%%%%%%%%%%%%%%% SANS PIVOT %%%%%%%%%%%%%%%%%%%%%%%")

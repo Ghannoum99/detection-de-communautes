@@ -6,13 +6,6 @@ import matplotlib.pyplot as plt
 import random
 
 """
-1. Expliquer ce qu'on a fait dans la classe Graphe (les attributs et les méthodes)
-2. Ajouter des commentaires
-3. Expliquer le rôle de chaque variable
-4. Ajouter les références (les 2 articles)
-"""
-
-"""
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %               Outils pour la conception d'algorithmes
