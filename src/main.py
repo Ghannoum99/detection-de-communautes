@@ -12,10 +12,10 @@ if __name__ == '__main__':
 
     # Creation d'un objet graphe
     # Générer un graphe aléatoire
-    #graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
+    graphe = Graphe().graphe_aleatoire(NOMBRE_SOMMET)
 
     # Générer un graphe selon le modele de Barabasi
-    graphe = Graphe().graphe_barabasi_albert(m)
+    #graphe = Graphe().graphe_barabasi_albert(m)
 
     graphe.afficher_graphe()
 

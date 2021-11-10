@@ -59,8 +59,7 @@ class Graphe:
 
         return liste_adjacence
 
-    # Fonction permettant d'afficher un graphe
-    # représenté par sa liste d'adjacence
+    # Fonction permettant d'afficher la liste d'adjacence de chaque sommet
     def afficher_graphe(self):
         for sommet, voisin in self.liste_adjacence.items():
             print("L(" + str(sommet) + ") = " + str(self.liste_adjacence[sommet]))
