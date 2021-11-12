@@ -2,7 +2,7 @@
 
 from graphe import Graphe
 
-NOMBRE_SOMMET = 12
+NOMBRE_SOMMET = 15
 m = 7
 
 if __name__ == '__main__':
@@ -16,23 +16,23 @@ if __name__ == '__main__':
 
     # Générer un graphe selon le modele de Barabasi
     #graphe = Graphe().graphe_barabasi_albert(m)
-
+    print("%%%%%%%%%%%%%%%%% Liste d'adjacence : %%%%%%%%%%%%%%%%%")
     graphe.afficher_graphe()
 
-    print("\n%%%%%%%%%%%%%%%%%%%%%%% SANS PIVOT %%%%%%%%%%%%%%%%%%%%%%%")
+    print("\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Bron-Kerbosh sans pivot : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     print(list(graphe.bron_kerbosch_sans_pivot(list(graphe.liste_adjacence.keys()), R, X)))
 
-    print("\n%%%%%%%%%%%%%%%%%%%%%%%  AVEC PIVOT %%%%%%%%%%%%%%%%%%%%%%%")
+    print("\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Bron-Kerbosh avec pivot : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     print(list(graphe.bron_kerbosch_avec_pivot(list(graphe.liste_adjacence.keys()), R, X)))
 
-    print("\n%%%%%%%%%%%%%%%%%%%%%%% AVEC ORDRE DE DEGENERESCENCE %%%%%%%%%%%%%%%%%%%%%%%")
+    print("\n%%%%%%%%%%%%%%%%%%%%% Bron-Kerbosh avec ordre de degenerescence : %%%%%%%%%%%%%%%%%%%%%%%")
     print(list(graphe.version_avec_ordonnancement()))
 
-    print("\n%%%%%%%%%%%%%%%%%%%%%%% ENUMERATION CLIQUES MAXIMALES %%%%%%%%%%%%%%%%%%%%%%%")
-    print(graphe.enumeration_cliques_max())
+    print("\n%%%%%%%%%%%%%%%%%%%%%%% ENUMERATION CLIQUES MAXIMALES Version 1 : %%%%%%%%%%%%%%%%%%%%%%%")
+    print(graphe.enumerer_cliques_max_v1())
     
-    print("\n%%%%%%%%%%%%%%%%%%%%%%%  ENUMERATION CLIQUES MAXIMALES V2 %%%%%%%%%%%%%%%%%%%%%%%")
-    print(list(graphe.enumeration_cliques_max_2()))
+    print("\n%%%%%%%%%%%%%%%%%%%%%%% ENUMERATION CLIQUES MAXIMALES Version 2 : %%%%%%%%%%%%%%%%%%%%%%%")
+    print(list(graphe.enumerer_cliques_max_v2()))
     
     # Dessiner l'objet graphe
     graphe.dessiner_graphe()
