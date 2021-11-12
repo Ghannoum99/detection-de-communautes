@@ -2,12 +2,8 @@
 
 from graphe import Graphe
 
-<<<<<<< HEAD
-NOMBRE_SOMMET = 5
-=======
 NOMBRE_SOMMET = 12
 m = 7
->>>>>>> 083654954b2ae4cce5be991a8228cef922a891f8
 
 if __name__ == '__main__':
     # initialisation de 2 listes vides
