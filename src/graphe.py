@@ -377,7 +377,7 @@ class Graphe:
 
     # Algorithme d'énumération des cliques maximales 3.2
     def enumeration_cliques_max_2(self):
-        # récupere le degré maximum dans le graphe
+        """# récupere le degré maximum dans le graphe
         k = max(map(lambda x: len(x), self.liste_adjacence.values()))
         # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
@@ -405,4 +405,51 @@ class Graphe:
                         print("reject")
                     else:
                         # renvoyer les cliques maximales
-                        yield from clique_maximales
+                        yield from clique_maximales"""
+        # Calcul de l'ordre de dégénérescence du graphe
+        liste_degenerescence = self.get_degenerescence_graphe()
+
+        # Génération des sous-graphes du graphe
+        operator_ss_graphes = self.generer_sous_graphes(list(liste_degenerescence), [], list(liste_degenerescence))
+        sous_graphes = []
+        ss_graphe_dict: dict = {}
+        for ss_graphe in operator_ss_graphes:
+            ss_graphe_dict.clear()
+            for sommet in ss_graphe:
+                voisins = list(filter(lambda x: x in ss_graphe, self.get_voisins(sommet)))
+                ss_graphe_dict[sommet] = voisins
+            sous_graphes.append(Graphe(ss_graphe_dict))
+
+        n = len(sous_graphes)
+
+        res = []
+        
+        for j in range(0, n):
+            SG = sous_graphes[j]
+            cliques_maximales = SG.version_avec_ordonnancement()
+            for clique_k in cliques_maximales:
+                for sommet in clique_k :
+                    for voisin_de_x in self.get_voisins(sommet):
+                        sommets_degen = list(liste_degenerescence)
+                        print("SALT", n)
+                        print("TTL", len(sommets_degen))
+                        v = sommets_degen[0]
+                        if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)):
+                            res.extend(clique_k)
+                            
+        return res
+    
+    def verifier_rank_adjacence(self, sommet, v, liste, clique):
+        voisins_de_x = self.get_voisins(sommet)
+        for voisin in voisins_de_x:
+            if voisins_de_x.index(voisin) < liste.index(v):
+                if self.verifier_adjacence(v, clique):
+                    return True
+        return False
+    
+    def verifier_adjacence(self, sommet_recherche, liste_sommets):
+        for sommet in liste_sommets:
+            if sommet_recherche not in self.get_voisins(sommet):
+                return False
+        return True
+            
