@@ -417,7 +417,6 @@ class Graphe:
         res = []
         
         for j in range(0, n-1):
-            stop = True
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
@@ -425,13 +424,15 @@ class Graphe:
                     for voisin_de_x in self.get_voisins(sommet):
                         sommets_degen = list(liste_degenerescence)
                         v = sommets_degen[j]
-                        if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)) and clique_k not in res:
+                        
+                        present = False
+                        for clique_max in res:
+                            result =  all(elem in clique_max for elem in clique_k)
+                            if result:
+                                present = True
+                            
+                        if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)) and not present:
                             res.append(clique_k)
-                        else:
-                            stop = False
-                            break
-                    if not stop:
-                        break
                             
         return res
     
