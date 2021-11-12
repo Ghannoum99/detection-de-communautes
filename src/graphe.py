@@ -6,13 +6,6 @@ import matplotlib.pyplot as plt
 import random
 
 """
-1. Expliquer ce qu'on a fait dans la classe Graphe (les attributs et les méthodes)
-2. Ajouter des commentaires
-3. Expliquer le rôle de chaque variable
-4. Ajouter les références (les 2 articles)
-"""
-
-"""
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %               Outils pour la conception d'algorithmes
@@ -66,8 +59,7 @@ class Graphe:
 
         return liste_adjacence
 
-    # Fonction permettant d'afficher un graphe
-    # représenté par sa liste d'adjacence
+    # Fonction permettant d'afficher la liste d'adjacence de chaque sommet
     def afficher_graphe(self):
         for sommet, voisin in self.liste_adjacence.items():
             print("L(" + str(sommet) + ") = " + str(self.liste_adjacence[sommet]))
