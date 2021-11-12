@@ -15,8 +15,12 @@ ISTY | IATIC 4 | 2021-2022
 
 ### Cloner le repository
 La première chose à faire est de cloner le repository:
+```sh
 $ git clone https://github.com/Ghannoum99/detection-de-communautes.git
 $ cd detection-de-communautes
+```
 
 ### Lancer le programme :
+```sh
 $ python main.py
+```
