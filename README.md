@@ -1,6 +1,6 @@
 # detection-de-communautes
 
-Dans ce projet, on va chercher des communautés (cliques maximales) dans un graphe no-orienté
+Le but de ce projet est de chercher des communautés (cliques maximales) dans un graphe non-orienté.
 
 ## Auteurs
 * GHANNOUM jihad
