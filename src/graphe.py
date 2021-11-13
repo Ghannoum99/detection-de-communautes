@@ -201,10 +201,10 @@ class Graphe:
         if len(P + X) == 0:
             yield R
         else:
-            # choisir un pivot de Tomita
+            # choisir un pivot selon l'algo de Tomita
             pivot = self.pivot_tomita(P, X)
 
-            # parcourir la liste P privéé N(pivot)
+            # parcourir la liste P privée de N(pivot)
             # avec N(pivot) : la liste des voisins du sommet pivot
             for sommet in list(set(P).difference(self.get_voisins(pivot))):
                 yield from self.bron_kerbosch_avec_pivot(list(set(P) & set(self.get_voisins(sommet))), R + [sommet],
@@ -213,13 +213,13 @@ class Graphe:
                 P.remove(sommet)
                 X.append(sommet)
 
-    # choisir un pivot pour minimiser le nombre d'appel récursif
+    # choisir un pivot pour minimiser le nombre d'appels récursif
     # cet algorithme consiste à prendre u tel que |P inter N(u)| soit maximal
     # N(u) : les voisins du sommet u.
     def pivot_tomita(self, P, X):
         # L'union de P et X
         P_union_X = list(P + X)
-        # initialiser u comme le premier sommet de P inter X
+        # initialiser u comme le premier sommet de P union X
         u = P_union_X[0]
 
         # L'intersection de P et N(u)
@@ -314,7 +314,7 @@ class Graphe:
     # Partie 3.1
 
     # Algorithme d'énumération des cliques maximales
-    def enumeration_cliques_max(self):
+    def enumerer_cliques_max_v1(self):
         # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
 
@@ -334,7 +334,7 @@ class Graphe:
 
         n = len(sous_graphes)
 
-        for j in range(0, n):
+        for j in range(0, n-1):
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
@@ -368,36 +368,7 @@ class Graphe:
     # Partie 3.2
 
     # Algorithme d'énumération des cliques maximales 3.2
-    def enumeration_cliques_max_2(self):
-        """# récupere le degré maximum dans le graphe
-        k = max(map(lambda x: len(x), self.liste_adjacence.values()))
-        # Calcul de l'ordre de dégénérescence du graphe
-        liste_degenerescence = self.get_degenerescence_graphe()
-
-        # On initialise une table de hachage vide
-        liste_adjacence_degenerescence: dict = {}
-        # lister les voisins de chaque sommets
-        for sommet in liste_degenerescence:
-            liste_adjacence_degenerescence.update({sommet: self.get_voisins(sommet)})
-
-        n = len(self.liste_adjacence.keys()) + 1
-
-        graphe_g_degen = Graphe(liste_adjacence_degenerescence)
-
-        for j in range(1, n):
-            # calculer toutes les cliques maximales du graphe
-            clique_maximales = graphe_g_degen.version_avec_ordonnancement()
-            # on va parcourir  tout les cliques dans clique maximale
-            for clique_k in clique_maximales:
-                # On va parcourir tous les sommets dans la clique
-                for sommet in clique_k:
-                    # tester si le voisin de sommet possède le plus petit ordre et
-                    # que le sommet appartient à la clique
-                    if (len(self.get_voisins(sommet)) < k) and (sommet in clique_k):
-                        print("reject")
-                    else:
-                        # renvoyer les cliques maximales
-                        yield from clique_maximales"""
+    def enumerer_cliques_max_v2(self):
         # Calcul de l'ordre de dégénérescence du graphe
         liste_degenerescence = self.get_degenerescence_graphe()
 
@@ -423,18 +394,18 @@ class Graphe:
                 for sommet in clique_k :
                     sommets_degen = list(liste_degenerescence)
                     v = sommets_degen[j]
-                        
+
                     present = False
                     for clique_max in res:
-                        result =  all(elem in clique_max for elem in clique_k)
+                        result = all(elem in clique_max for elem in clique_k)
                         if result:
                             present = True
-                            
-                    if not (self.verifier_rank_adjacence(voisin_de_x, v, liste_degenerescence, clique_k)) and not present:
-                    res.append(clique_k)
-                            
+
+                    if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)) and not present:
+                        res.append(clique_k)
+
         return res
-    
+
     def verifier_rank_adjacence(self, sommet, v, liste, clique):
         voisins_de_x = self.get_voisins(sommet)
         for voisin in voisins_de_x:
