@@ -22,5 +22,6 @@ $ cd detection-de-communautes
 
 ### Lancer le programme :
 ```sh
+$ cd src
 $ python main.py
 ```
