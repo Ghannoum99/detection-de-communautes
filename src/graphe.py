@@ -421,18 +421,17 @@ class Graphe:
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
                 for sommet in clique_k :
-                    for voisin_de_x in self.get_voisins(sommet):
-                        sommets_degen = list(liste_degenerescence)
-                        v = sommets_degen[j]
+                    sommets_degen = list(liste_degenerescence)
+                    v = sommets_degen[j]
                         
-                        present = False
-                        for clique_max in res:
-                            result =  all(elem in clique_max for elem in clique_k)
-                            if result:
-                                present = True
+                    present = False
+                    for clique_max in res:
+                        result =  all(elem in clique_max for elem in clique_k)
+                        if result:
+                            present = True
                             
-                        if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)) and not present:
-                            res.append(clique_k)
+                    if not (self.verifier_rank_adjacence(voisin_de_x, v, liste_degenerescence, clique_k)) and not present:
+                    res.append(clique_k)
                             
         return res
     
