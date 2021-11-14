@@ -404,13 +404,10 @@ class Graphe:
                         result = all(elem in clique_max for elem in clique_k)
                         if result:
                             present = True
-<<<<<<< HEAD
 
                     # On vérifie si l'un des voisins du sommet a un rang inférieur à v et est adjacent 
                     # à tous les sommets dans la clique k
-=======
                     # si les sommets ont un voisin commun d'ordre inférieur dans σ qui est adjacent à tous les sommets de la clique
->>>>>>> 8a9d1d81e4217c6960c0090d421e69828fa1c1c9
                     if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)) and not present:
                         # on insère la clique dans la liste des cliques maximales
                         res.append(clique_k)
