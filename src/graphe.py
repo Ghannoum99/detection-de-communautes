@@ -300,8 +300,7 @@ class Graphe:
                             ind = len(list_voisins)
                             D[ind].remove(w)
                             D[ind - 1].append(w)
-            print("deg", k)
-
+                            
         return L
 
     """
@@ -377,7 +376,7 @@ class Graphe:
         operator_ss_graphes = self.generer_sous_graphes(list(liste_degenerescence), [], list(liste_degenerescence))
         sous_graphes = []
         ss_graphe_dict: dict = {}
-        #parcours des sommets puis pour chaque sommet i les voisins du sommet i
+        # parcours des sommets puis pour chaque sommet i les voisins du sommet i
         for ss_graphe in operator_ss_graphes:
             ss_graphe_dict.clear()
             for sommet in ss_graphe:
@@ -393,7 +392,7 @@ class Graphe:
             SG = sous_graphes[j]
             cliques_maximales = SG.version_avec_ordonnancement()
             for clique_k in cliques_maximales:
-                for sommet in clique_k :
+                for sommet in clique_k:
                     # On récupère le sommet numéro j de la liste de dégénérescence
                     sommets_degen = list(liste_degenerescence)
                     v = sommets_degen[j]
