@@ -8,7 +8,7 @@ import random
 """
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%               Outils pour la conception d'algorithmes
+%               Outils Pour La Conception D'Algorithmes
 %
 %                   ISTY - IATIC 4 [2021 - 2022]
 %
@@ -377,6 +377,7 @@ class Graphe:
         operator_ss_graphes = self.generer_sous_graphes(list(liste_degenerescence), [], list(liste_degenerescence))
         sous_graphes = []
         ss_graphe_dict: dict = {}
+        #parcours des sommets puis pour chaque sommet i les voisins du sommet i
         for ss_graphe in operator_ss_graphes:
             ss_graphe_dict.clear()
             for sommet in ss_graphe:
@@ -403,14 +404,20 @@ class Graphe:
                         result = all(elem in clique_max for elem in clique_k)
                         if result:
                             present = True
+<<<<<<< HEAD
 
                     # On vérifie si l'un des voisins du sommet a un rang inférieur à v et est adjacent 
                     # à tous les sommets dans la clique k
+=======
+                    # si les sommets ont un voisin commun d'ordre inférieur dans σ qui est adjacent à tous les sommets de la clique
+>>>>>>> 8a9d1d81e4217c6960c0090d421e69828fa1c1c9
                     if not (self.verifier_rank_adjacence(sommet, v, liste_degenerescence, clique_k)) and not present:
+                        # on insère la clique dans la liste des cliques maximales
                         res.append(clique_k)
 
         return res
 
+    # Cette méthode vérifie les sommets qui ont un voisin commun d'ordre inférieur et aussi l’adjacence des sommets
     def verifier_rank_adjacence(self, sommet, v, liste, clique):
         voisins_de_x = self.get_voisins(sommet)
         for voisin in voisins_de_x:
@@ -419,6 +426,7 @@ class Graphe:
                     return True
         return False
     
+    # Cette méthode sert à vérifier qu’un sommet x est adjacent à un autre sommet dans la liste de sommets
     def verifier_adjacence(self, sommet_recherche, liste_sommets):
         for sommet in liste_sommets:
             if sommet_recherche not in self.get_voisins(sommet):

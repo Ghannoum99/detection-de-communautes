@@ -5,7 +5,7 @@ Le but de ce projet est de chercher des communautés (cliques maximales) dans un
 ## Auteurs
 * GHANNOUM jihad
 * KHIARI Slim
-* NOUIRA NESSRINE
+* NOUIRA Nessrine
 * TOIHIR Yoa
 
 ISTY | IATIC 4 | 2021-2022
@@ -22,5 +22,6 @@ $ cd detection-de-communautes
 
 ### Lancer le programme :
 ```sh
+$ cd src
 $ python main.py
 ```
