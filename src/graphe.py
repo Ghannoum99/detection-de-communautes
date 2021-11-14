@@ -8,7 +8,7 @@ import random
 """
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%               Outils pour la conception d'algorithmes
+%               Outils Pour La Conception D'Algorithmes
 %
 %                   ISTY - IATIC 4 [2021 - 2022]
 %
