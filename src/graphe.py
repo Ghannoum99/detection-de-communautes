@@ -300,7 +300,7 @@ class Graphe:
                             ind = len(list_voisins)
                             D[ind].remove(w)
                             D[ind - 1].append(w)
-                            
+
         return L
 
     """
